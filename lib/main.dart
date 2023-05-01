@@ -6,6 +6,7 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:path_finder/DataModel.dart';
 import 'package:path_finder/DetailsTemplate.dart';
 import 'package:http/http.dart' as http;
+import 'package:path_finder/colors.dart';
 import 'package:path_finder/gpt4ResponseModel.dart';
 
 void main() {
@@ -42,12 +43,12 @@ class _QuestionaryScreenState extends State<QuestionaryScreen> {
   TextEditingController live = TextEditingController();
   TextEditingController who = TextEditingController();
   TextEditingController age = TextEditingController();
-
+  
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.white,
       body: Center(
         child: Container(
             // color: Colors.red,
@@ -56,37 +57,41 @@ class _QuestionaryScreenState extends State<QuestionaryScreen> {
             child: ModalProgressHUD(
               inAsyncCall: isLoading,
               progressIndicator: CircularProgressIndicator(
-                color: Colors.pink,
+                color: NewCustomeColorPlatte().pink,
               ),
               child: Center(
                   child: Card(
                       color: Colors.white,
                       elevation: 5,
-                      shadowColor: Colors.lightBlue,
+                      shadowColor: NewCustomeColorPlatte().blueColor,
                       shape: RoundedRectangleBorder(
-                          side: const BorderSide(
-                              color: Colors.lightBlue, width: 3),
+                          side:  BorderSide(
+                              color: NewCustomeColorPlatte().blueColor, width: 3),
                           borderRadius: BorderRadius.circular(15)),
                       child: Padding(
-                        padding: const EdgeInsets.all(16.0),
+                        padding: const EdgeInsets.all(32.0),
                         child: Column(
                           children: [
                             Row(
-                              children: const [
+                              children:  [
                                 Text(
                                   "Tell me about yourself...",
-                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                  style: TextStyle(
+                                    
+                                    color: NewCustomeColorPlatte().headingColor,
+                                    fontWeight: FontWeight.bold),
                                   textScaleFactor: 2,
                                 )
                               ],
                             ),
                             Row(
-                              children: const [
+                              children:  [
                                 Text(
                                   "This details can help me to suggest best career path for you.",
                                   style: TextStyle(
                                       fontWeight: FontWeight.w500,
-                                      color: Colors.blueGrey),
+                                        color: NewCustomeColorPlatte().textColor,
+                                  ),
                                 )
                               ],
                             ),
@@ -159,9 +164,9 @@ class _QuestionaryScreenState extends State<QuestionaryScreen> {
                             // ),
                             Row(
                               children: [
-                                const Text(
+                                 Text(
                                   "Do you want assessment test to check your capability",
-                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                  style: TextStyle(fontWeight: FontWeight.bold,color: NewCustomeColorPlatte().headingColor),
                                 ),
                                 Switch(
                                     activeColor: Colors.pink,
@@ -236,7 +241,8 @@ class _QuestionaryScreenState extends State<QuestionaryScreen> {
     print(prompt);
     var data = {
       "model": "text-davinci-003",
-      "prompt": "i want to become a ${model.label} give me guidence how can i become it in json format step by step also give me the meaning , scope, package , function, Qualities, of ${model.label}.all step should be in string format",
+      "prompt":
+          "i want to become a ${model.label} give me guidence how can i become it in json format step by step also give me the meaning , scope, package , function, Qualities, of ${model.label}.all step should be in string format",
       "temperature": 0,
       "max_tokens": 1500,
       "top_p": 1,
@@ -308,7 +314,8 @@ class CustomeTextFiled extends StatelessWidget {
           children: [
             Text(
               label,
-              style: const TextStyle(fontWeight: FontWeight.bold),
+              style: TextStyle(fontWeight: FontWeight.bold,
+                 color: NewCustomeColorPlatte().headingColor),
             )
           ],
         ),
@@ -321,7 +328,7 @@ class CustomeTextFiled extends StatelessWidget {
             child: Container(
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(30),
-                  color: Colors.lightBlue.shade50),
+                  color: NewCustomeColorPlatte().blueColor.withOpacity(0.1)),
               child: Center(
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
@@ -367,7 +374,7 @@ class CustomeDropFiled extends StatelessWidget {
           children: [
             Text(
               label,
-              style: const TextStyle(fontWeight: FontWeight.bold),
+              style:  TextStyle(fontWeight: FontWeight.bold,color: NewCustomeColorPlatte().headingColor),
             )
           ],
         ),

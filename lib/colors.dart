@@ -7,7 +7,7 @@ class NewCustomeColorPlatte {
     // Colors.blueGrey,
     // Colors.brown,
     // Colors.cyan,
-    Colors.deepOrange,
+    // Colors.deepOrange,
     // Colors.deepPurple,
     // Colors.green,
     // Colors.grey,
@@ -22,12 +22,30 @@ class NewCustomeColorPlatte {
     Colors.teal,
     // Colors.yellow,
   ];
-
+  Color blueColor = Color(0xff009BDF);
+  Color headingColor = Color(0xff001F51);
+  Color pink = Colors.pink;
+  Color textColor = Color(0xff5D5D5D);
   MaterialColor getRowColor({required int index}) {
     if (index >= colorsListNew.length) {
       index = index % (colorsListNew.length);
     }
     return colorsListNew[index];
+  }
+
+  getHeadingColor() {
+    return MaterialColor(0xFF880E4F, {
+      50: Color.fromRGBO(0, 31, 81, .1),
+      100:  Color.fromRGBO(0, 31, 81, .2),
+      200: Color.fromRGBO(0, 31, 81, .3),
+      300: Color.fromRGBO(0, 31, 81, .4),
+      400: Color.fromRGBO(0, 31, 81, .5),
+      500: Color.fromRGBO(0, 31, 81, .6),
+      600: Color.fromRGBO(0, 31, 81, .7),
+      700:  Color.fromRGBO(0, 31, 81, .8),
+      800: Color.fromRGBO(0, 31, 81, .9),
+      900: Color.fromRGBO(0, 31, 81, 1),
+    });
   }
 
   getColorWithShade50({required int index}) {

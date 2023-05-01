@@ -27,28 +27,28 @@ class _DetailsTemplateState extends State<DetailsTemplate> {
     Colors.blue
   ];
   int selectedTabIndex = 0;
+  Color headingColor = Color(0xff001F51);
 
   @override
   Widget build(BuildContext context) {
-   
     List<Widget> myWidgets = [
       Row(
         children: [
           Text(
             widget.model.model.title,
-            style: const TextStyle(
-                fontWeight: FontWeight.w700, color: Colors.white),
+            style: TextStyle(fontWeight: FontWeight.w700, color: headingColor),
             textScaleFactor: 2,
           )
         ],
       ),
-     
+
       const SizedBox(
         height: 20,
       ),
 
       TabBar(
-          indicatorColor: Colors.orange,
+          indicatorColor: NewCustomeColorPlatte().blueColor,
+          indicatorWeight: 3.0,
           onTap: (value) {
             selectedTabIndex = value;
             setState(() {});
@@ -57,9 +57,9 @@ class _DetailsTemplateState extends State<DetailsTemplate> {
               .mapIndexed((index, e) => Tab(
                     child: Text(
                       e,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontWeight: FontWeight.w600,
-                        color: Colors.orange,
+                        color: NewCustomeColorPlatte().pink,
                       ),
                     ),
                   ))
@@ -73,27 +73,27 @@ class _DetailsTemplateState extends State<DetailsTemplate> {
         BorderContainers(
           title: "Meaning",
           data: widget.model.model.meaning,
-          color: Colors.orange,
+          color: Colors.blueGrey,
         ),
         BorderContainers(
           title: "Scope",
           data: widget.model.model.scope,
-          color: Colors.orange,
+       color: Colors.blueGrey,
         ),
         BorderContainers(
           title: "Function",
           data: widget.model.model.function,
-          color: Colors.orange,
+          color: Colors.blueGrey,
         ),
         BorderContainers(
           title: "Package",
           data: widget.model.model.package,
-          color: Colors.orange,
+          color: Colors.blueGrey,
         ),
         BorderContainers(
           title: "Qualites",
           data: widget.model.model.qualites,
-          color: Colors.orange,
+          color: Colors.blueGrey,
         ),
       ][selectedTabIndex],
       const SizedBox(
@@ -176,7 +176,7 @@ class _DetailsTemplateState extends State<DetailsTemplate> {
       length: 5,
       initialIndex: 0,
       child: Scaffold(
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.white,
         body: Padding(
           padding: const EdgeInsets.all(16.0),
 
@@ -289,7 +289,8 @@ class BorderContainers extends StatelessWidget {
                           Text(
                             data,
                             style: TextStyle(
-                                color: Colors.white, fontWeight: FontWeight.w500),
+                                color: Colors.black,
+                                fontWeight: FontWeight.w400),
                           )
                         ],
                       ),
