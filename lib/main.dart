@@ -1,7 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:path_finder/DataModel.dart';
 import 'package:path_finder/DetailsTemplate.dart';
+import 'package:http/http.dart' as http;
+import 'package:path_finder/gpt4ResponseModel.dart';
 
 void main() {
   runApp(const MyApp());
@@ -32,6 +37,11 @@ class QuestionaryScreen extends StatefulWidget {
 
 class _QuestionaryScreenState extends State<QuestionaryScreen> {
   DropDownCarrerModel? selectedModel;
+  bool isOtherSelected = false;
+  bool isLoading = false;
+  TextEditingController live = TextEditingController();
+  TextEditingController who = TextEditingController();
+  TextEditingController age = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -43,139 +53,252 @@ class _QuestionaryScreenState extends State<QuestionaryScreen> {
             // color: Colors.red,
             height: size.height * 0.8,
             width: size.width * 0.6,
-            child: Center(
-                child: Card(
-                    color: Colors.white,
-                    elevation: 5,
-                    shadowColor: Colors.lightBlue,
-                    shape: RoundedRectangleBorder(
-                        side:
-                            const BorderSide(color: Colors.lightBlue, width: 3),
-                        borderRadius: BorderRadius.circular(15)),
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        children: [
-                          Row(
-                            children: const [
-                              Text(
-                                "Tell me about yourself...",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                                textScaleFactor: 2,
-                              )
-                            ],
-                          ),
-                          Row(
-                            children: const [
-                              Text(
-                                "This details can help me to suggest best career path for you.",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.blueGrey),
-                              )
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 40,
-                          ),
-                          Row(
-                            children: [
-                              Expanded(
-                                  child: CustomeDropFiled(
-                                      label: "What you want to become?",
-                                      value: selectedModel,
-                                      onChanged: (val) {
-                                        selectedModel = val;
-
-                                     
-                                        setState(() {
-                                          
-                                        });
-                                      })),
-                              const SizedBox(
-                                width: 20,
-                              ),
-                              const Expanded(
-                                child: CustomeTextFiled(
-                                  label: "What is your age?",
+            child: ModalProgressHUD(
+              inAsyncCall: isLoading,
+              progressIndicator: CircularProgressIndicator(
+                color: Colors.pink,
+              ),
+              child: Center(
+                  child: Card(
+                      color: Colors.white,
+                      elevation: 5,
+                      shadowColor: Colors.lightBlue,
+                      shape: RoundedRectangleBorder(
+                          side: const BorderSide(
+                              color: Colors.lightBlue, width: 3),
+                          borderRadius: BorderRadius.circular(15)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: const [
+                                Text(
+                                  "Tell me about yourself...",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                  textScaleFactor: 2,
+                                )
+                              ],
+                            ),
+                            Row(
+                              children: const [
+                                Text(
+                                  "This details can help me to suggest best career path for you.",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.blueGrey),
+                                )
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 40,
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                    child: isOtherSelected
+                                        ? CustomeTextFiled(
+                                            onChanged: (val) {
+                                              selectedModel =
+                                                  DropDownCarrerModel(
+                                                      label: val,
+                                                      model: CarrerModel());
+                                            },
+                                            label: "What you want to become?",
+                                            hint: "Enter....")
+                                        : CustomeDropFiled(
+                                            label: "What you want to become?",
+                                            value: selectedModel,
+                                            onChanged: (val) {
+                                              if (val.label == "Other") {
+                                                isOtherSelected = true;
+                                              } else {
+                                                selectedModel = val;
+                                              }
+                                              setState(() {});
+                                            })),
+                                const SizedBox(
+                                  width: 20,
                                 ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          const CustomeTextFiled(
-                            label: "Where you live?",
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          const CustomeTextFiled(
-                            label: "Who you are?",
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          const CustomeTextFiled(
-                            label: "In which class you study",
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          Row(
-                            children: [
-                              const Text(
-                                "Do you want assessment test to check your capability",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              Switch(
-                                  activeColor: Colors.pink,
-                                  value: true,
-                                  onChanged: (val) {})
-                            ],
-                          ),
-                          const Spacer(),
-                          const Divider(
-                            color: Colors.pink,
-                            thickness: 3,
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          Row(
-                            children: [
-                              ElevatedButton(
-                                  onPressed: selectedModel == null
-                                      ? null
-                                      : () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    DetailsTemplate(
-                                                        model: selectedModel!),
-                                              ));
-                                        },
-                                  style: ElevatedButton.styleFrom(
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(30)),
-                                      backgroundColor: Colors.pink),
-                                  child: const Text("Submit"))
-                            ],
-                          )
-                        ],
-                      ),
-                    )))),
+                                Expanded(
+                                  child: CustomeTextFiled(
+                                    hint: "Enter....",
+                                    label: "What is your age?",
+                                    controller: age,
+                                    onChanged: (val) {},
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            CustomeTextFiled(
+                                onChanged: (val) {},
+                                label: "Where you live?",
+                                controller: live,
+                                hint: "Enter...."),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            CustomeTextFiled(
+                                onChanged: (val) {},
+                                label: "Who you are?",
+                                controller: who,
+                                hint: "Enter...."),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            // CustomeTextFiled(
+                            //   onChanged: (val) {},
+                            //   hint: "Enter....",
+                            //   label: "In which class you study",
+                            // ),
+                            // const SizedBox(
+                            //   height: 20,
+                            // ),
+                            Row(
+                              children: [
+                                const Text(
+                                  "Do you want assessment test to check your capability",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                Switch(
+                                    activeColor: Colors.pink,
+                                    value: true,
+                                    onChanged: (val) {})
+                              ],
+                            ),
+                            const Spacer(),
+                            const Divider(
+                              color: Colors.pink,
+                              thickness: 3,
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Row(
+                              children: [
+                                ElevatedButton(
+                                    onPressed: selectedModel == null &&
+                                            isOtherSelected == false
+                                        ? null
+                                        : () async {
+                                            isLoading = true;
+                                            setState(() {});
+                                            if (!isOtherSelected) {
+                                              isLoading = false;
+                                              setState(() {});
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        DetailsTemplate(
+                                                            model:
+                                                                selectedModel!),
+                                                  ));
+                                            } else {
+                                              selectedModel =
+                                                  await fetchModelFromAI(
+                                                      selectedModel!);
+                                              isLoading = false;
+                                              setState(() {});
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        DetailsTemplate(
+                                                            model:
+                                                                selectedModel!),
+                                                  ));
+                                            }
+                                          },
+                                    style: ElevatedButton.styleFrom(
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(30)),
+                                        backgroundColor: Colors.pink),
+                                    child: const Text("Submit"))
+                              ],
+                            )
+                          ],
+                        ),
+                      ))),
+            )),
       ),
     );
+  }
+
+  Future<DropDownCarrerModel> fetchModelFromAI(
+      DropDownCarrerModel model) async {
+    String prompt =
+        "you are a Counsellor ,${who.text.isEmpty ? "" : "I am ${who.text} and "}${live.text.isEmpty ? "" : "I live in ${live.text} and "}${age.text.isEmpty ? "" : " my age is ${age.text} and "}i want to become a ${model.label} give me guidence how can i become it in json format step by step also give me the meaning , scope, package , function, Qualities, of ${model.label}.all step should be in string format";
+    print(prompt);
+    var data = {
+      "model": "text-davinci-003",
+      "prompt": "i want to become a ${model.label} give me guidence how can i become it in json format step by step also give me the meaning , scope, package , function, Qualities, of ${model.label}.all step should be in string format",
+      "temperature": 0,
+      "max_tokens": 1500,
+      "top_p": 1,
+      "frequency_penalty": 0,
+      "presence_penalty": 0
+    };
+    var client = http.Client();
+    try {
+      final headers = {
+        "Content-Type": "application/json",
+        "Authorization":
+            "Bearer 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"
+      };
+      var response = await client.post(
+          Uri.parse("https://api.openai.com/v1/completions"),
+          headers: headers,
+          body: jsonEncode(data));
+      var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
+      final responseString = decodedResponse["choices"][0]["text"];
+
+      final respJson = jsonDecode(responseString);
+      print("=========");
+      print(respJson);
+      final respModel = Gpt4Response.fromJson(respJson);
+      model.model.title = model.label;
+      model.model.meaning = respModel.meaning;
+      model.model.function = respModel.functions;
+      model.model.scope = respModel.scope;
+      model.model.package = respModel.package;
+      model.model.qualites = respModel.qualities;
+
+      model.model.proccess =
+          respModel.steps.map((e) => Process(description: e)).toList();
+      if (model.model.meaning.isEmpty ||
+          model.model.scope.isEmpty ||
+          // model.model.function.isEmpty ||
+          model.model.package.isEmpty ||
+          model.model.qualites.isEmpty ||
+          model.model.proccess.isEmpty) {
+        model = await fetchModelFromAI(model);
+      }
+    } catch (e) {
+      print("Some Exception Occur :$e");
+    } finally {
+      client.close();
+    }
+
+    return model;
   }
 }
 
 class CustomeTextFiled extends StatelessWidget {
-  const CustomeTextFiled({super.key, required this.label});
+  const CustomeTextFiled(
+      {super.key,
+      required this.label,
+      this.hint,
+      required this.onChanged,
+      this.controller});
   final String label;
+  final String? hint;
+  final TextEditingController? controller;
+  final Function(String value) onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -203,7 +326,12 @@ class CustomeTextFiled extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: TextField(
+                    controller: controller,
+                    onChanged: (val) {
+                      onChanged(val);
+                    },
                     decoration: InputDecoration(
+                        hintText: hint,
                         border: InputBorder.none,
                         focusColor: Colors.lightBlue.shade50,
                         hoverColor: Colors.lightBlue.shade50,
@@ -220,7 +348,7 @@ class CustomeTextFiled extends StatelessWidget {
 }
 
 class CustomeDropFiled extends StatelessWidget {
-  const CustomeDropFiled(
+  CustomeDropFiled(
       {super.key,
       required this.label,
       required this.onChanged,
@@ -229,7 +357,8 @@ class CustomeDropFiled extends StatelessWidget {
   final DropDownCarrerModel? value;
 
   final Function(DropDownCarrerModel value) onChanged;
-
+  // final DropDownCarrerModel other =
+  //     DropDownCarrerModel(label: "Other", model: CarrerModel());
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -256,18 +385,17 @@ class CustomeDropFiled extends StatelessWidget {
                 child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: DropdownButton<DropDownCarrerModel>(
-                      isExpanded: true,
-                      isDense: true,
-                      value: value,
-                      hint: const Text("Select"),
-                      onChanged: (DropDownCarrerModel? val) {
-                        onChanged(val!);
-                      },
-                      items: dropDownModelList
-                          .map((e) => DropdownMenuItem<DropDownCarrerModel>(
-                              value: e, child: Text(e.label)))
-                          .toList(),
-                    )),
+                        isExpanded: true,
+                        isDense: true,
+                        value: value,
+                        hint: const Text("Select"),
+                        onChanged: (DropDownCarrerModel? val) {
+                          onChanged(val!);
+                        },
+                        items: dropDownModelList
+                            .map((e) => DropdownMenuItem<DropDownCarrerModel>(
+                                value: e, child: Text(e.label)))
+                            .toList())),
               ),
             ),
           ),
@@ -277,7 +405,10 @@ class CustomeDropFiled extends StatelessWidget {
   }
 }
 
-final dropDownModelList = [DropDownCarrerModel(label: "MBA", model: mbaModel)];
+final dropDownModelList = [
+  DropDownCarrerModel(label: "MBA", model: mbaModel),
+  DropDownCarrerModel(label: "Other", model: CarrerModel())
+];
 
 CarrerModel mbaModel = CarrerModel(
     title: "MBA - Master of Business Administration",

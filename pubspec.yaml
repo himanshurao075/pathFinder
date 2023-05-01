@@ -38,6 +38,9 @@ dependencies:
   # timeline_tile: ^2.0.0
   flutter_staggered_animations: ^1.1.1
   url_launcher: ^6.1.10
+  http: ^0.13.5
+  modal_progress_hud_nsn: ^0.4.0
+  
 
 dev_dependencies:
   flutter_test:

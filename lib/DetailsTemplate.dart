@@ -11,7 +11,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
 class DetailsTemplate extends StatefulWidget {
-  const DetailsTemplate({super.key,required this.model});
+  const DetailsTemplate({super.key, required this.model});
   final DropDownCarrerModel model;
   @override
   State<DetailsTemplate> createState() => _DetailsTemplateState();
@@ -27,23 +27,26 @@ class _DetailsTemplateState extends State<DetailsTemplate> {
     Colors.blue
   ];
   int selectedTabIndex = 0;
-  
+
   @override
   Widget build(BuildContext context) {
+   
     List<Widget> myWidgets = [
       Row(
         children: [
           Text(
-           widget. model.model.title,
+            widget.model.model.title,
             style: const TextStyle(
                 fontWeight: FontWeight.w700, color: Colors.white),
             textScaleFactor: 2,
           )
         ],
       ),
+     
       const SizedBox(
         height: 20,
       ),
+
       TabBar(
           indicatorColor: Colors.orange,
           onTap: (value) {
@@ -54,41 +57,42 @@ class _DetailsTemplateState extends State<DetailsTemplate> {
               .mapIndexed((index, e) => Tab(
                     child: Text(
                       e,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.w600,
                         color: Colors.orange,
                       ),
                     ),
                   ))
               .toList()),
-      SizedBox(
+
+      const SizedBox(
         height: 20,
       ),
 
       [
         BorderContainers(
           title: "Meaning",
-          model:  widget.model.model,
+          data: widget.model.model.meaning,
           color: Colors.orange,
         ),
         BorderContainers(
           title: "Scope",
-          model:  widget.model.model,
+          data: widget.model.model.scope,
           color: Colors.orange,
         ),
         BorderContainers(
           title: "Function",
-          model: widget.model. model,
+          data: widget.model.model.function,
           color: Colors.orange,
         ),
         BorderContainers(
           title: "Package",
-          model: widget.model. model,
+          data: widget.model.model.package,
           color: Colors.orange,
         ),
         BorderContainers(
           title: "Qualites",
-          model:  widget.model.model,
+          data: widget.model.model.qualites,
           color: Colors.orange,
         ),
       ][selectedTabIndex],
@@ -111,11 +115,11 @@ class _DetailsTemplateState extends State<DetailsTemplate> {
       Column(
         children: List.generate(widget.model.model.proccess.length, (index) {
           final isLeft = index % 2 != 0;
-          final isLastIndex = index ==  widget.model.model.proccess.length - 1;
+          final isLastIndex = index == widget.model.model.proccess.length - 1;
           final color = NewCustomeColorPlatte().getRowColor(index: index);
           final lightColor =
               NewCustomeColorPlatte().getColorWithShade50(index: index);
-          final process = widget.model. model.proccess[index];
+          final process = widget.model.model.proccess[index];
           return TimelineTile(
             alignment: TimelineAlign.center,
             isLast: isLastIndex,
@@ -135,16 +139,18 @@ class _DetailsTemplateState extends State<DetailsTemplate> {
                       child: CircleAvatar(
                           // radius: 20,
                           backgroundColor: lightColor,
-                          child: Icon(
-                            process.prefixIcon,
-                            color: color,
-                          )
-                          //  Text(
-                          //   "${index + 1}",
-                          //   style: TextStyle(
-                          //       color: Colors.black,
-                          //       fontWeight: FontWeight.bold),
-                          // )
+                          child: process.prefixIcon == null
+                              ? Text(
+                                  "${index + 1}",
+                                  style: TextStyle(
+                                      color: color,
+                                      fontWeight: FontWeight.bold),
+                                )
+                              : Icon(
+                                  process.prefixIcon,
+                                  color: color,
+                                )
+                          //
                           ),
                     ))),
             endChild: isLeft
@@ -173,6 +179,7 @@ class _DetailsTemplateState extends State<DetailsTemplate> {
         backgroundColor: Colors.black,
         body: Padding(
           padding: const EdgeInsets.all(16.0),
+
           // child: AnimationLimiter(
           //   child: ListView.builder(
           //     itemCount: myWidgets.length,
@@ -237,12 +244,12 @@ List<SourceModel> sources = [
 class BorderContainers extends StatelessWidget {
   const BorderContainers({
     super.key,
-    required this.model,
+    required this.data,
     required this.color,
     required this.title,
   });
 
-  final CarrerModel model;
+  final String data;
   final MaterialColor color;
   final String title;
 
@@ -265,22 +272,28 @@ class BorderContainers extends StatelessWidget {
               color: color.shade200.withOpacity(0.2),
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                child: Row(
                   children: [
-                    Text(
-                      title,
-                      style:
-                          TextStyle(fontWeight: FontWeight.w900, color: color),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            title,
+                            style: TextStyle(
+                                fontWeight: FontWeight.w900, color: color),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            data,
+                            style: TextStyle(
+                                color: Colors.white, fontWeight: FontWeight.w500),
+                          )
+                        ],
+                      ),
                     ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      model.meaning,
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.w500),
-                    )
                   ],
                 ),
               )),
