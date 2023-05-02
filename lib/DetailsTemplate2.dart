@@ -12,10 +12,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
 class DetailsTemplate2 extends StatefulWidget {
-const   DetailsTemplate2({
-    super.key,
-    required this.model
-  });
+  const DetailsTemplate2({super.key, required this.model});
   // final DropDownCarrerModel model =
   //     DropDownCarrerModel(label: "MBA", model: mbaModel);
   final DropDownCarrerModel model;
@@ -52,19 +49,21 @@ class _DetailsTemplate2State extends State<DetailsTemplate2> {
         ));
   }
 
+ 
+
   nextStep() {
-    List<Process> temp = [];
-    for (int i = 0; i < totalProcess; i++) {
-      temp.add(widget.model.model.proccess[i]);
-    }
-    myModel.model.proccess = temp;
     totalProcess += 1;
+
+    myModel.model.proccess.add(widget.model.model.proccess[totalProcess-1]);
+
     setState(() {});
+    scrollController.animateTo(scrollController.position.maxScrollExtent + 500,
+        duration: Duration(milliseconds: 1500), curve: Curves.easeOut);
   }
 
   late DropDownCarrerModel myModel;
   int totalProcess = 1;
-
+  ScrollController scrollController = ScrollController();
   @override
   Widget build(BuildContext context) {
     List<Widget> myWidgets = [
@@ -157,6 +156,7 @@ class _DetailsTemplate2State extends State<DetailsTemplate2> {
               AnimationLimiter(
                 child: ListView.builder(
                   shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
                   itemCount: myModel.model.proccess.length,
                   itemBuilder: (BuildContext context, int index) {
                     final isLeft = (index + 1) % 2 != 0;
@@ -276,6 +276,7 @@ class _DetailsTemplate2State extends State<DetailsTemplate2> {
         body: Padding(
           padding: const EdgeInsets.all(16.0),
           child: SingleChildScrollView(
+            controller: scrollController,
             child: Column(children: myWidgets),
           ),
         ),
@@ -404,7 +405,7 @@ class _BranchContainersState extends State<BranchContainers> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Future.delayed(const Duration(milliseconds: 700), () {
+    Future.delayed(const Duration(milliseconds: 200), () {
       aniWidth = 35;
       setState(() {});
     });
@@ -413,7 +414,7 @@ class _BranchContainersState extends State<BranchContainers> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 32.0),
+      padding: const EdgeInsets.symmetric(vertical: 100),
       child: Row(
         children: [
           Expanded(
@@ -473,64 +474,66 @@ class _BranchContainersState extends State<BranchContainers> {
                                     const SizedBox(
                                       height: 20,
                                     ),
-                                    // Divider(
-                                    //   color: widget.color,
-                                    //   height: 5,
-                                    // ),
-                                    // Padding(
-                                    //   padding: const EdgeInsets.symmetric(
-                                    //       vertical: 2.0),
-                                    //   child: Wrap(
-                                    //     spacing: 10,
-                                    //     runSpacing: 5,
-                                    //     children: List.generate(
-                                    //         widget.model.sources.length,
-                                    //         (index) {
-                                    //       final source =
-                                    //           widget.model.sources[index];
-                                    //       return InkWell(
-                                    //         onTap: () async {
-                                    //           if (source.type ==
-                                    //                   MediaType.pdf ||
-                                    //               source.type ==
-                                    //                   MediaType.image ||
-                                    //               source.type ==
-                                    //                   MediaType.audio) {
-                                    //             html.AnchorElement
-                                    //                 anchorElement =
-                                    //                 new html.AnchorElement(
-                                    //                     href: source.link);
-                                    //             anchorElement.download =
-                                    //                 source.link;
-                                    //             anchorElement.click();
-                                    //           }
+                                    Divider(
+                                      color: widget.color,
+                                      height: 5,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 2.0),
+                                      child: Wrap(
+                                        spacing: 10,
+                                        runSpacing: 5,
+                                        children: List.generate(
+                                            widget.model.sources.length,
+                                            (index) {
+                                          final source =
+                                              widget.model.sources[index];
+                                          return InkWell(
+                                            onTap: () async {
+                                              if (source.type ==
+                                                      MediaType.pdf ||
+                                                  source.type ==
+                                                      MediaType.image ||
+                                                  source.type ==
+                                                      MediaType.audio) {
+                                                         js.context.callMethod(
+                                                    "open", [source.link]);
+                                                // html.AnchorElement
+                                                //     anchorElement =
+                                                //     new html.AnchorElement(
+                                                //         href: source.link);
+                                                // anchorElement.download =
+                                                //     source.link;
+                                                // anchorElement.click();
+                                              }
 
-                                    //           if (source.type ==
-                                    //               MediaType.link) {
-                                    //             js.context.callMethod(
-                                    //                 "open", [source.link]);
-                                    //           }
-                                    //         },
-                                    //         child: Row(
-                                    //           mainAxisSize: MainAxisSize.min,
-                                    //           children: [
-                                    //             if (source.prefix != null)
-                                    //               source.prefix!,
-                                    //             const SizedBox(
-                                    //               width: 5,
-                                    //             ),
-                                    //             Text(
-                                    //               source.title,
-                                    //               style: const TextStyle(
-                                    //                 fontWeight: FontWeight.w500,
-                                    //               ),
-                                    //             )
-                                    //           ],
-                                    //         ),
-                                    //       );
-                                    //     }),
-                                    //   ),
-                                    // )
+                                              if (source.type ==
+                                                  MediaType.link) {
+                                                js.context.callMethod(
+                                                    "open", [source.link]);
+                                              }
+                                            },
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                if (source.prefix != null)
+                                                  source.prefix!,
+                                                const SizedBox(
+                                                  width: 5,
+                                                ),
+                                                Text(
+                                                  source.title,
+                                                  style: const TextStyle(
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          );
+                                        }),
+                                      ),
+                                    )
                                   ],
                                 ),
                               )),
