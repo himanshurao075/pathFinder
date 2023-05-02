@@ -12,11 +12,13 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
 class DetailsTemplate2 extends StatefulWidget {
-  DetailsTemplate2({
+const   DetailsTemplate2({
     super.key,
+    required this.model
   });
-  final DropDownCarrerModel model =
-      DropDownCarrerModel(label: "MBA", model: mbaModel);
+  // final DropDownCarrerModel model =
+  //     DropDownCarrerModel(label: "MBA", model: mbaModel);
+  final DropDownCarrerModel model;
   @override
   State<DetailsTemplate2> createState() => _DetailsTemplate2State();
 }
@@ -40,6 +42,7 @@ class _DetailsTemplate2State extends State<DetailsTemplate2> {
     myModel = DropDownCarrerModel(
         label: widget.model.label,
         model: CarrerModel(
+          title: widget.model.model.title,
           function: widget.model.model.function,
           scope: widget.model.model.scope,
           meaning: widget.model.model.meaning,
@@ -169,9 +172,9 @@ class _DetailsTemplate2State extends State<DetailsTemplate2> {
 
                     return AnimationConfiguration.staggeredList(
                       position: index,
-                      duration: const Duration(seconds: 1),
+                      duration: const Duration(milliseconds: 700),
                       child: FadeInAnimation(
-                        duration: const Duration(seconds: 3),
+                        duration: const Duration(milliseconds: 1400),
                         child: Column(
                           children: [
                             Container(
@@ -401,7 +404,7 @@ class _BranchContainersState extends State<BranchContainers> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Future.delayed(const Duration(seconds: 1), () {
+    Future.delayed(const Duration(milliseconds: 700), () {
       aniWidth = 35;
       setState(() {});
     });
@@ -465,7 +468,6 @@ class _BranchContainersState extends State<BranchContainers> {
                                         widget.model.description,
                                         style: const TextStyle(
                                             fontWeight: FontWeight.w500),
-
                                       ),
                                     ]),
                                     const SizedBox(
@@ -529,7 +531,6 @@ class _BranchContainersState extends State<BranchContainers> {
                                     //     }),
                                     //   ),
                                     // )
-                               
                                   ],
                                 ),
                               )),
@@ -577,7 +578,7 @@ class BranchIconBar extends StatelessWidget {
       children: [
         AnimatedContainer(
           width: aniWidth,
-          duration: const Duration(seconds: 1),
+          duration: const Duration(milliseconds: 700),
           height: 3,
           color: color,
         ),
@@ -603,7 +604,7 @@ class BranchIconBar extends StatelessWidget {
         ),
         AnimatedContainer(
           width: aniWidth,
-          duration: const Duration(seconds: 1),
+          duration: const Duration(milliseconds: 700),
           height: 3,
           color: color,
         ),
