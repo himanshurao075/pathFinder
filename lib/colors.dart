@@ -34,18 +34,7 @@ class NewCustomeColorPlatte {
   }
 
   getHeadingColor() {
-    return MaterialColor(0xFF880E4F, {
-      50: Color.fromRGBO(0, 31, 81, .1),
-      100:  Color.fromRGBO(0, 31, 81, .2),
-      200: Color.fromRGBO(0, 31, 81, .3),
-      300: Color.fromRGBO(0, 31, 81, .4),
-      400: Color.fromRGBO(0, 31, 81, .5),
-      500: Color.fromRGBO(0, 31, 81, .6),
-      600: Color.fromRGBO(0, 31, 81, .7),
-      700:  Color.fromRGBO(0, 31, 81, .8),
-      800: Color.fromRGBO(0, 31, 81, .9),
-      900: Color.fromRGBO(0, 31, 81, 1),
-    });
+    return Color.fromARGB(255, 3, 2, 14);
   }
 
   getColorWithShade50({required int index}) {
