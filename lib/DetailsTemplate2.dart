@@ -31,7 +31,36 @@ class _DetailsTemplate2State extends State<DetailsTemplate2> {
     Colors.blue
   ];
   int selectedTabIndex = 0;
-  Color headingColor = Color(0xff001F51);
+  Color headingColor = const Color(0xff001F51);
+  double radius = 10;
+  @override
+  void initState() {
+    super.initState();
+
+    myModel = DropDownCarrerModel(
+        label: widget.model.label,
+        model: CarrerModel(
+          function: widget.model.model.function,
+          scope: widget.model.model.scope,
+          meaning: widget.model.model.meaning,
+          package: widget.model.model.package,
+          qualites: widget.model.model.qualites,
+          proccess: [widget.model.model.proccess.first],
+        ));
+  }
+
+  nextStep() {
+    List<Process> temp = [];
+    for (int i = 0; i < totalProcess; i++) {
+      temp.add(widget.model.model.proccess[i]);
+    }
+    myModel.model.proccess = temp;
+    totalProcess += 1;
+    setState(() {});
+  }
+
+  late DropDownCarrerModel myModel;
+  int totalProcess = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +68,7 @@ class _DetailsTemplate2State extends State<DetailsTemplate2> {
       Row(
         children: [
           Text(
-            widget.model.model.title,
+            myModel.model.title,
             style: TextStyle(fontWeight: FontWeight.w700, color: headingColor),
             textScaleFactor: 2,
           )
@@ -76,27 +105,27 @@ class _DetailsTemplate2State extends State<DetailsTemplate2> {
       [
         BorderContainers(
           title: "Meaning",
-          data: widget.model.model.meaning,
+          data: myModel.model.meaning,
           color: Colors.blueGrey,
         ),
         BorderContainers(
           title: "Scope",
-          data: widget.model.model.scope,
+          data: myModel.model.scope,
           color: Colors.blueGrey,
         ),
         BorderContainers(
           title: "Function",
-          data: widget.model.model.function,
+          data: myModel.model.function,
           color: Colors.blueGrey,
         ),
         BorderContainers(
           title: "Package",
-          data: widget.model.model.package,
+          data: myModel.model.package,
           color: Colors.blueGrey,
         ),
         BorderContainers(
           title: "Qualites",
-          data: widget.model.model.qualites,
+          data: myModel.model.qualites,
           color: Colors.blueGrey,
         ),
       ][selectedTabIndex],
@@ -116,179 +145,124 @@ class _DetailsTemplate2State extends State<DetailsTemplate2> {
       // const SizedBox(
       //   height: 20,
       // ),
-      Column(
-        children: List.generate(widget.model.model.proccess.length, (index) {
-          final isLeft = (index+1) % 2 != 0;
-          final isLastIndex = index == widget.model.model.proccess.length - 1;
-          final color = NewCustomeColorPlatte().getRowColor(index: index);
-          final lightColor =
-              NewCustomeColorPlatte().getColorWithShade50(index: index);
-          final process = widget.model.model.proccess[index];
 
-          return Container(
-            // decoration: BoxDecoration(color: Colors.red,
-            // borderRadius: BorderRadius.all(Radius.circular(5))
-            // // borderRadius: BorderRadius.horizontal(left: isLeft? Radius.circular(15) : Radius.zero, right: isLeft ? Radius.zero : Radius.circular(15))
-            
-            // ),
-            // color: Colors.blue,
-            child: Column(
-              children: [
-                Container( 
-                 
-                  decoration: BoxDecoration(
-                    
-                            borderRadius: BorderRadius.circular(15)
-                           
-          
-          
-                  ),
-                  child: IntrinsicHeight(
-                    child: Row(
-                      children: [
-                 if(isLeft)
-                        Container(
-                          width: 5,
-                          decoration: BoxDecoration(
-                            color: Colors.blue,
-                          // borderRadius: BorderRadius.horizontal(left: Radius.circular(15))
-                          ),
-                         ), 
-                        Expanded(
-                          child: Container(
-                            padding: EdgeInsets.all(16),
-                            decoration: BoxDecoration(color: Colors.red,
-                            borderRadius: BorderRadius.circular(0)
-                          
-                            ),     
-                            child: Container(
-                              color: Colors.pink.shade100,
-                              child: Row(
-                                children: [
-                                  Column(
-                                    children: [
-                                      Text("Dfsd"),
-                                      Text("Dfsd"),
-                                      Text("Dfsd"),
-                                      Text("Dfsd"),
-                                      Text("Dfsd"),
-                                      Text("Dfsd"),
-                                      Text("Dfsd"),
-                                      Text("Dfsd"),
-                                      Text("Dfsd"),
-                                    ],
-                                  )
-                                ],
+      Center(
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width * 0.5,
+          child: Column(
+            children: [
+              AnimationLimiter(
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: myModel.model.proccess.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final isLeft = (index + 1) % 2 != 0;
+                    final isLastIndex =
+                        index == myModel.model.proccess.length - 1;
+                    final color =
+                        NewCustomeColorPlatte().getRowColor(index: index);
+                    final lightColor = NewCustomeColorPlatte()
+                        .getColorWithShade50(index: index);
+                    final process = myModel.model.proccess[index];
+                    final isStart = index == 0;
+                    // double radius = 10;
+
+                    return AnimationConfiguration.staggeredList(
+                      position: index,
+                      duration: const Duration(seconds: 1),
+                      child: FadeInAnimation(
+                        duration: const Duration(seconds: 3),
+                        child: Column(
+                          children: [
+                            Container(
+                              // height: MediaQuery.of(context).size.height * 0.25,
+                              decoration: BoxDecoration(
+                                  color: Colors.brown.shade200,
+                                  borderRadius: BorderRadius.vertical(
+                                      top: isStart
+                                          ? Radius.circular(radius)
+                                          : Radius.zero)),
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                    left: isLeft ? radius : 0,
+                                    bottom: 0,
+                                    right: isLeft ? 0 : radius),
+                                child: Container(
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.only(
+                                            topLeft: isStart
+                                                ? Radius.zero
+                                                : isLeft
+                                                    ? Radius.circular(radius)
+                                                    : Radius.zero,
+                                            bottomLeft: isLeft
+                                                ? Radius.circular(radius)
+                                                : Radius.zero,
+                                            topRight: !isLeft
+                                                ? Radius.circular(radius)
+                                                : Radius.zero,
+                                            bottomRight: !isLeft
+                                                ? Radius.circular(radius)
+                                                : Radius.zero)),
+                                    child: BranchContainers(
+                                      color: color,
+                                      index: index,
+                                      isLeftBranch: isLeft,
+                                      model: process,
+                                    )),
                               ),
                             ),
-                          ),
-                        )
-                     ,
-                      if(!isLeft)
-                        Container(
-                          width: 5,
-                          decoration: BoxDecoration(
-                            color: Colors.blue,
-                          // borderRadius: BorderRadius.horizontal(right: Radius.circular(15),)
-                          ),
-                         ), 
-                      ],
-                    ),
-                  ),
-                ),
-            Container(
-                  height: 10,
-                  decoration: BoxDecoration(
-                      color: Colors.blue,
-                      borderRadius:    BorderRadius.only( bottomLeft: isLeft ? Radius.circular(15) : Radius.zero,topRight: isLeft?   Radius.circular(15): Radius.zero , bottomRight:  isLeft? Radius.zero : Radius.circular(15), topLeft : isLeft? Radius.zero :Radius.circular(15))),
-                ),
-              ],
-            ),
-          );
-          return Container(
-            decoration: BoxDecoration(
-              color: Colors.blue,
-              borderRadius: BorderRadius.horizontal(left: Radius.circular(5)),
-            ),
-            child: Padding(
-              padding:
-                  EdgeInsets.only(left: isLeft ? 0 : 2, right: isLeft ? 2 : 0),
-              child: Container(
-                padding: EdgeInsets.all(16),
-                color: Colors.white,
-                child: Container(
-                  color: Colors.pink.shade100,
-                  child: Row(
-                    children: [
-                      Column(
-                        children: [
-                          Text("Dfsd"),
-                          Text("Dfsd"),
-                          Text("Dfsd"),
-                          Text("Dfsd"),
-                          Text("Dfsd"),
-                          Text("Dfsd"),
-                          Text("Dfsd"),
-                          Text("Dfsd"),
-                          Text("Dfsd"),
-                        ],
-                      )
-                    ],
-                  ),
+                            Container(
+                              height: radius,
+                              // duration: Duration(seconds: 1),
+                              decoration: BoxDecoration(
+                                  color: Colors.brown.shade200,
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: isLeft
+                                          ? Radius.zero
+                                          : Radius.circular(radius),
+                                      bottomLeft: isLastIndex
+                                          ? Radius.circular(radius)
+                                          : isLeft
+                                              ? Radius.circular(radius)
+                                              : Radius.zero,
+                                      topRight: !isLeft
+                                          ? Radius.zero
+                                          : Radius.circular(radius),
+                                      bottomRight: !isLeft
+                                          ? Radius.circular(radius)
+                                          : Radius.zero)),
+                            )
+                          ],
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ),
-            ),
-          );
-
-          // TimelineTile(
-          //   alignment: isLeft? TimelineAlign.start : TimelineAlign.end,
-          //   // isLast: isLastIndex,
-          //   beforeLineStyle:
-          //       LineStyle(color: Colors.brown.shade200, thickness: 15),
-          //   afterLineStyle:
-          //       LineStyle(color: Colors.brown.shade200, thickness: 15),
-          //   indicatorStyle: IndicatorStyle(
-          //       width: 40,
-          //       height: 40,
-          //       indicatorXY: 0.5,
-          //       indicator: CircleAvatar(
-          //           // radius: 23,
-          //           backgroundColor: color,
-          //           child: Padding(
-          //             padding: const EdgeInsets.all(3.0),
-          //             child: CircleAvatar(
-          //                 // radius: 20,
-          //                 backgroundColor: lightColor,
-          //                 child: process.prefixIcon == null
-          //                     ? Text(
-          //                         "${index + 1}",
-          //                         style: TextStyle(
-          //                             color: color,
-          //                             fontWeight: FontWeight.bold),
-          //                       )
-          //                     : Icon(
-          //                         process.prefixIcon,
-          //                         color: color,
-          //                       )
-          //                 //
-          //                 ),
-          //           ))),
-          //   endChild: isLeft
-          //       ? BranchContainers(
-          //           isLeftBranch: isLeft,
-          //           model: process,
-          //           color: color,
-          //         ) : null,
-          //   startChild: isLeft
-          //       ? null: BranchContainers(
-          //           model: process,
-          //           color: color,
-          //           isLeftBranch: isLeft,
-          //         )
-          //       ,
-          // );
-        }),
-      )
+              if (myModel.model.proccess.length !=
+                  widget.model.model.proccess.length) ...[
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  mainAxisAlignment: myModel.model.proccess.length % 2 == 0
+                      ? MainAxisAlignment.start
+                      : MainAxisAlignment.end,
+                  children: [
+                    ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.red),
+                        onPressed: nextStep,
+                        child: const Text("Next  >>")),
+                  ],
+                )
+              ]
+            ],
+          ),
+        ),
+      ),
     ];
 
     return DefaultTabController(
@@ -298,25 +272,6 @@ class _DetailsTemplate2State extends State<DetailsTemplate2> {
         backgroundColor: Colors.white,
         body: Padding(
           padding: const EdgeInsets.all(16.0),
-
-          // child: AnimationLimiter(
-          //   child: ListView.builder(
-          //     itemCount: myWidgets.length,
-          //     itemBuilder: (BuildContext context, int index) {
-          //       return AnimationConfiguration.staggeredList(
-          //         position: index,
-          //         duration: const Duration(milliseconds: 500),
-          //         child: SlideAnimation(
-          //           verticalOffset: 50.0,
-          //           child: FadeInAnimation(
-          //             child: myWidgets[index],
-          //           ),
-          //         ),
-          //       );
-          //     },
-          //   ),
-          // )
-
           child: SingleChildScrollView(
             child: Column(children: myWidgets),
           ),
@@ -328,14 +283,14 @@ class _DetailsTemplate2State extends State<DetailsTemplate2> {
 
 List<SourceModel> sources = [
   SourceModel(
-      prefix: Icon(CupertinoIcons.globe),
+      prefix: const Icon(CupertinoIcons.globe),
       title: "About Flutter",
       link:
           "https://www.google.com/search?q=flutter+sdk&oq=flutter+sdk&aqs=chrome..69i57j0i433i512j0i512l8.8032j0j7&sourceid=chrome&ie=UTF-8",
       type: MediaType.link),
   SourceModel(
       title: "Introduction",
-      prefix: Icon(
+      prefix: const Icon(
         CupertinoIcons.videocam_circle,
         color: Colors.blue,
       ),
@@ -343,7 +298,7 @@ List<SourceModel> sources = [
       type: MediaType.video),
   SourceModel(
       title: "Document",
-      prefix: Icon(
+      prefix: const Icon(
         Icons.picture_as_pdf_rounded,
         color: Colors.red,
       ),
@@ -407,7 +362,7 @@ class BorderContainers extends StatelessWidget {
                           ),
                           Text(
                             data,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.w400),
                           )
@@ -423,170 +378,234 @@ class BorderContainers extends StatelessWidget {
   }
 }
 
-class BranchContainers extends StatelessWidget {
+class BranchContainers extends StatefulWidget {
   const BranchContainers({
     super.key,
+    required this.index,
     required this.model,
     required this.color,
     required this.isLeftBranch,
   });
-
+  final int index;
   final Process model;
   final MaterialColor color;
   final bool isLeftBranch;
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(),
-        Row(
-          children: [
-            if (!isLeftBranch)
-              Expanded(
-                child: SizedBox.expand(),
-              ),
-            Expanded(
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  // if (!isLeftBranch)
-                  //   Container(
-                  //     width: 100,
-                  //     height: 3,
-                  //     color: color,
-                  //   ),
-                  Expanded(
-                    child: Column(
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                              color: Color(color.value),
-                              borderRadius: BorderRadius.circular(5)),
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                                // bottom: 3.0,
-                                right: isLeftBranch ? 3.0 : 0,
-                                left: isLeftBranch ? 0 : 3),
-                            child: Container(
-                                decoration: BoxDecoration(
-                                    color: color.shade50,
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(5))),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(16.0),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        model.title,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w900),
-                                      ),
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                      Text(
-                                        model.description,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w500),
-                                      ),
-                                      SizedBox(
-                                        height: 20,
-                                      ),
-                                      Divider(
-                                        color: color,
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 2.0),
-                                        child: Wrap(
-                                          spacing: 10,
-                                          runSpacing: 5,
-                                          children: List.generate(
-                                              model.sources.length, (index) {
-                                            final source = model.sources[index];
-                                            return InkWell(
-                                              onTap: () async {
-                                                if (source.type ==
-                                                        MediaType.pdf ||
-                                                    source.type ==
-                                                        MediaType.image ||
-                                                    source.type ==
-                                                        MediaType.audio) {
-                                                  html.AnchorElement
-                                                      anchorElement =
-                                                      new html.AnchorElement(
-                                                          href: source.link);
-                                                  anchorElement.download =
-                                                      source.link;
-                                                  anchorElement.click();
-                                                }
+  State<BranchContainers> createState() => _BranchContainersState();
+}
 
-                                                if (source.type ==
-                                                    MediaType.link) {
-                                                  js.context.callMethod(
-                                                      "open", [source.link]);
-                                                }
-                                              },
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  if (source.prefix != null)
-                                                    source.prefix!,
-                                                  SizedBox(
-                                                    width: 5,
-                                                  ),
-                                                  Text(
-                                                    source.title,
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            );
-                                          }),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                )),
-                          ),
-                        ),
-                        // SizedBox(height: 5,),
-                        // Expanded(
-                        //   child: Container( decoration: BoxDecoration(color: color.shade50,borderRadius: BorderRadius.circular(5)),
-                        //     child: Padding(
-                        //       padding: const EdgeInsets.all(8.0),
-                        //       child: Row(
-                        //         mainAxisSize: MainAxisSize.min,
-                        //         children: [
-                        //           Text("FDsdfs"),
-                        //         ],
-                        //       ),
-                        //     ),),
-                        // )
-                      ],
-                    ),
+class _BranchContainersState extends State<BranchContainers> {
+  double aniWidth = 0;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Future.delayed(const Duration(seconds: 1), () {
+      aniWidth = 35;
+      setState(() {});
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 32.0),
+      child: Row(
+        children: [
+          Expanded(
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                if (widget.isLeftBranch)
+                  BranchIconBar(
+                    aniWidth: aniWidth,
+                    color: widget.color,
+                    index: widget.index,
+                    model: widget.model,
                   ),
-                  // if (isLeftBranch)
-                  //   Container(
-                  //     width: 100,
-                  //     height: 3,
-                  //     color: color,
-                  //   ),
-                ],
-              ),
+                Expanded(
+                  child: Row(
+                    mainAxisAlignment: widget.isLeftBranch
+                        ? MainAxisAlignment.start
+                        : MainAxisAlignment.end,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                            color: Color(widget.color.value),
+                            borderRadius: BorderRadius.circular(15)),
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              bottom: 3.0,
+                              right: widget.isLeftBranch ? 3.0 : 0,
+                              left: widget.isLeftBranch ? 0 : 3),
+                          child: Container(
+                              decoration: BoxDecoration(
+                                  color: widget.color.shade50,
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(12))),
+                              child: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      widget.model.title,
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.w900),
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(children: [
+                                      Text(
+                                        widget.model.description,
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.w500),
+
+                                      ),
+                                    ]),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    // Divider(
+                                    //   color: widget.color,
+                                    //   height: 5,
+                                    // ),
+                                    // Padding(
+                                    //   padding: const EdgeInsets.symmetric(
+                                    //       vertical: 2.0),
+                                    //   child: Wrap(
+                                    //     spacing: 10,
+                                    //     runSpacing: 5,
+                                    //     children: List.generate(
+                                    //         widget.model.sources.length,
+                                    //         (index) {
+                                    //       final source =
+                                    //           widget.model.sources[index];
+                                    //       return InkWell(
+                                    //         onTap: () async {
+                                    //           if (source.type ==
+                                    //                   MediaType.pdf ||
+                                    //               source.type ==
+                                    //                   MediaType.image ||
+                                    //               source.type ==
+                                    //                   MediaType.audio) {
+                                    //             html.AnchorElement
+                                    //                 anchorElement =
+                                    //                 new html.AnchorElement(
+                                    //                     href: source.link);
+                                    //             anchorElement.download =
+                                    //                 source.link;
+                                    //             anchorElement.click();
+                                    //           }
+
+                                    //           if (source.type ==
+                                    //               MediaType.link) {
+                                    //             js.context.callMethod(
+                                    //                 "open", [source.link]);
+                                    //           }
+                                    //         },
+                                    //         child: Row(
+                                    //           mainAxisSize: MainAxisSize.min,
+                                    //           children: [
+                                    //             if (source.prefix != null)
+                                    //               source.prefix!,
+                                    //             const SizedBox(
+                                    //               width: 5,
+                                    //             ),
+                                    //             Text(
+                                    //               source.title,
+                                    //               style: const TextStyle(
+                                    //                 fontWeight: FontWeight.w500,
+                                    //               ),
+                                    //             )
+                                    //           ],
+                                    //         ),
+                                    //       );
+                                    //     }),
+                                    //   ),
+                                    // )
+                               
+                                  ],
+                                ),
+                              )),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                if (!widget.isLeftBranch)
+                  BranchIconBar(
+                    aniWidth: aniWidth,
+                    color: widget.color,
+                    index: widget.index,
+                    model: widget.model,
+                  ),
+              ],
             ),
-            if (isLeftBranch)
-              Expanded(
-                child: SizedBox.expand(),
-              ),
-          ],
+          ),
+          // if (widget.isLeftBranch)
+          //   Expanded(
+          //     child: SizedBox(),
+          //   ),
+        ],
+      ),
+    );
+  }
+}
+
+class BranchIconBar extends StatelessWidget {
+  const BranchIconBar({
+    super.key,
+    required this.aniWidth,
+    required this.color,
+    required this.model,
+    required this.index,
+  });
+
+  final double aniWidth;
+  final int index;
+  final MaterialColor color;
+  final Process model;
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        AnimatedContainer(
+          width: aniWidth,
+          duration: const Duration(seconds: 1),
+          height: 3,
+          color: color,
+        ),
+        CircleAvatar(
+          radius: 17,
+          backgroundColor: color,
+          child: CircleAvatar(
+            radius: 15,
+            backgroundColor: color.shade50,
+            child: Center(
+                child: model.prefixIcon == null
+                    ? Text(
+                        "${index + 1}",
+                        style: TextStyle(
+                            color: color, fontWeight: FontWeight.bold),
+                      )
+                    : Icon(
+                        model.prefixIcon,
+                        color: color,
+                        size: 20,
+                      )),
+          ),
+        ),
+        AnimatedContainer(
+          width: aniWidth,
+          duration: const Duration(seconds: 1),
+          height: 3,
+          color: color,
         ),
       ],
     );

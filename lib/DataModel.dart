@@ -17,6 +17,8 @@ class CarrerModel {
   String qualites;
 
   List<Process> proccess;
+
+
 }
 
 class Process {

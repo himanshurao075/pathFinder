@@ -7,7 +7,7 @@ class NewCustomeColorPlatte {
     // Colors.blueGrey,
     // Colors.brown,
     // Colors.cyan,
-    // Colors.deepOrange,
+    Colors.deepOrange,
     // Colors.deepPurple,
     // Colors.green,
     // Colors.grey,
