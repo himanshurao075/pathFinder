@@ -9,6 +9,8 @@ import 'package:http/http.dart' as http;
 import 'package:path_finder/colors.dart';
 import 'package:path_finder/gpt4ResponseModel.dart';
 
+import 'DetailsTemplate2.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -23,8 +25,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const QuestionaryScreen(),
-      // home: const DetailsTemplate(),
+      // home: const QuestionaryScreen(),
+      home:  DetailsTemplate2(),
     );
   }
 }
@@ -194,28 +196,28 @@ class _QuestionaryScreenState extends State<QuestionaryScreen> {
                                             if (!isOtherSelected) {
                                               isLoading = false;
                                               setState(() {});
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        DetailsTemplate(
-                                                            model:
-                                                                selectedModel!),
-                                                  ));
+                                              // Navigator.push(
+                                              //     context,
+                                              //     MaterialPageRoute(
+                                              //       builder: (context) =>
+                                              //           DetailsTemplate2(
+                                              //               model:
+                                              //                   selectedModel!),
+                                                  // ));
                                             } else {
                                               selectedModel =
                                                   await fetchModelFromAI(
                                                       selectedModel!);
                                               isLoading = false;
                                               setState(() {});
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        DetailsTemplate(
-                                                            model:
-                                                                selectedModel!),
-                                                  ));
+                                              // Navigator.push(
+                                              //     context,
+                                              //     MaterialPageRoute(
+                                              //       builder: (context) =>
+                                              //           DetailsTemplate2(
+                                              //               model:
+                                              //                   selectedModel!),
+                                              //     ));
                                             }
                                           },
                                     style: ElevatedButton.styleFrom(
