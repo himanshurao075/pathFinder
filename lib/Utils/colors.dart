@@ -1,31 +1,18 @@
 import 'package:flutter/material.dart';
 
-class NewCustomeColorPlatte {
+class NewCustomColorPlatte {
   List<MaterialColor> colorsListNew = [
-    // Colors.amber,
-    // Colors.blue,
-    // Colors.blueGrey,
-    // Colors.brown,
-    // Colors.cyan,
     Colors.deepOrange,
-    // Colors.deepPurple,
-    // Colors.green,
-    // Colors.grey,
-    // Colors.indigo,
     Colors.lightBlue,
-    // Colors.lightGreen,
-    // Colors.lime,
-    // Colors.orange,
     Colors.pink,
-    // Colors.purple,
-    // Colors.red,
     Colors.teal,
-    // Colors.yellow,
   ];
-  Color blueColor = Color(0xff009BDF);
-  Color headingColor = Color(0xff001F51);
+
+  Color blueColor = const Color(0xff009BDF);
+  Color headingColor = const Color(0xff001F51);
   Color pink = Colors.pink;
-  Color textColor = Color(0xff5D5D5D);
+  Color textColor = const Color(0xff5D5D5D);
+
   MaterialColor getRowColor({required int index}) {
     if (index >= colorsListNew.length) {
       index = index % (colorsListNew.length);
@@ -34,7 +21,7 @@ class NewCustomeColorPlatte {
   }
 
   getHeadingColor() {
-    return Color.fromARGB(255, 3, 2, 14);
+    return const Color.fromARGB(255, 3, 2, 14);
   }
 
   getColorWithShade50({required int index}) {

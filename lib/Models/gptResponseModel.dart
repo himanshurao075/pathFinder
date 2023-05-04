@@ -1,22 +1,3 @@
-// class Gpt4Response {
-//   Guidance guidance;
-
-//   Gpt4Response({
-//     required this.guidance,
-//   });
-
-//   factory Gpt4Response.fromJson(Map<String, dynamic> json) {
-//     print("GUIDANCE  === $json");
-//     return Gpt4Response(
-//       guidance: Guidance.fromJson(json["Guidance"]),
-//     );
-//   }
-
-//   Map<String, dynamic> toJson() => {
-//         "Guidance": guidance.toJson(),
-//       };
-// }
-
 class Gpt4Response {
   List<String> steps;
   String meaning;
@@ -35,7 +16,6 @@ class Gpt4Response {
   });
 
   factory Gpt4Response.fromJson(Map<String, dynamic> json) {
-    print("===============  $json");
     return Gpt4Response(
       steps: List<String>.from(json["Steps"].map((x) => x ?? "")),
       meaning: json["Meaning"] ?? "",

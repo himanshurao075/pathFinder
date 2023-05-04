@@ -1,7 +1,5 @@
-
 import 'package:flutter/material.dart';
-import 'package:path_finder/questionary_screen.dart';
-
+import 'Routings/routing.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,15 +10,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const QuestionaryScreen(),
-      // home:  DetailsTemplate2(),
+      debugShowCheckedModeBanner:false,
+      routeInformationParser: router.routeInformationParser,
+      routerDelegate: router.routerDelegate,
+      routeInformationProvider: router.routeInformationProvider,
     );
   }
 }
-
 
