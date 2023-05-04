@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
-import 'package:path_finder/DetailsTemplate.dart';
 import 'package:path_finder/Providers/home.dart';
-import 'package:path_finder/Screens/templateOne.dart';
-import 'package:path_finder/Screens/templateThree.dart';
-import 'package:path_finder/Screens/templateTwo.dart';
+import 'package:path_finder/Screens/Templates/templateOne.dart';
 import 'package:path_finder/Utils/colors.dart';
 import 'package:path_finder/Utils/constants.dart';
 import 'package:collection/collection.dart';
-import 'package:path_finder/Widgets/buttons.dart';
+import 'package:path_finder/Widgets/common.dart';
+import 'Templates/templateThree.dart';
+import 'Templates/templateTwo.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({

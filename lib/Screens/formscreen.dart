@@ -4,12 +4,9 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:path_finder/Models/DataModel.dart';
 import 'package:path_finder/Providers/home.dart';
 import 'package:path_finder/Screens/homescreen.dart';
-import 'package:path_finder/Screens/templateOne.dart';
-import 'package:path_finder/Screens/templateTwo.dart';
 import 'package:path_finder/Utils/colors.dart';
 import 'package:path_finder/Widgets/dropdown.dart';
 import 'package:path_finder/Widgets/textfield.dart';
-
 import '../Widgets/buttons.dart';
 
 class FormScreen extends StatelessWidget {

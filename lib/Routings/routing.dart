@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
+import 'package:path_finder/Screens/Templates/templateThree.dart';
+import 'package:path_finder/Screens/Templates/templateTwo.dart';
 import 'package:path_finder/Screens/formscreen.dart';
 import 'package:path_finder/Routings/pages.dart';
 import 'package:path_finder/Screens/homescreen.dart';
 import 'package:path_finder/Screens/loginscreen.dart';
-import 'package:path_finder/Screens/templateOne.dart';
-import 'package:path_finder/Screens/templateTwo.dart';
+import 'package:path_finder/Screens/Templates/templateOne.dart';
 
 GoRouter router = GoRouter(
   initialLocation: AppPages.login,
@@ -32,19 +33,26 @@ GoRouter router = GoRouter(
           },
         ),
         GoRoute(
-          path: AppPages.details1,
-          name: AppPages.details1,
+          path: AppPages.template1,
+          name: AppPages.template1,
           builder: (BuildContext context, GoRouterState state) {
             return const TemplateOne();
           },
         ),
         GoRoute(
-          path: AppPages.details2,
-          name: AppPages.details2,
+          path: AppPages.template2,
+          name: AppPages.template2,
           builder: (BuildContext context, GoRouterState state) {
             return const TemplateTwo();
           },
-        )
+        ),
+        GoRoute(
+          path: AppPages.template3,
+          name: AppPages.template3,
+          builder: (BuildContext context, GoRouterState state) {
+            return const TemplateThree();
+          },
+        ),
       ],
     ),
   ],
