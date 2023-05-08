@@ -17,8 +17,9 @@ class ModelsHomeView extends GetView<ModelsHomeController> {
         title: const Text("Models View Home"),
         actions: [
           ElevatedButton.icon(
-              onPressed: () {
-                Get.toNamed(Routes.modelsForm);
+              onPressed: () async {
+                await Get.toNamed(Routes.modelsForm);
+                controller.update();
               },
               icon: Icon(Icons.add),
               label: Text("Add New Model"))

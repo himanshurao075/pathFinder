@@ -19,7 +19,7 @@ class AppPages {
 
   static final routes = [
     GetPage(
-      name: _Paths.modelsHome,
+      name: _Paths.modelsForm,
       page: () => const ModelsFormView(),
       binding: ModelsHomeBinding(),
     ),

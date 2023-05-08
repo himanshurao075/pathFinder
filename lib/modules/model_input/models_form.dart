@@ -99,6 +99,7 @@ class ModelsFormView extends GetView<ModelsHomeController> {
                     (pindex) {
                   Process process = controller.carrerModel.proccess[pindex];
                   return Card(
+                    elevation: 5,
                     key: GlobalKey(),
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
@@ -128,6 +129,9 @@ class ModelsFormView extends GetView<ModelsHomeController> {
                                     style: TextStyle(color: Colors.red),
                                   ))
                             ],
+                          ),
+                          const SizedBox(
+                            height: 10,
                           ),
                           CustomeOutlineFormFiled(
                               labelText: "Title",
@@ -327,6 +331,11 @@ class ModelsFormView extends GetView<ModelsHomeController> {
                       print("description ${element.description}");
                       count += 1;
                     });
+
+                    controller.models= [ ...controller.models , model];
+                    controller.carrerModel = CarrerModel();
+                    Get.back();
+                    controller.update();
                   },
                   child: Text("Submit"),
                 )

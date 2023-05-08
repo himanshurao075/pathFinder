@@ -14,9 +14,7 @@ class ModelsHomeController extends GetxController {
     // TODO: implement onInit
     super.onInit();
     models.add(mbaModel);
-    models.add(mbaModel);
-    models.add(mbaModel);
-    models.add(mbaModel);
+ 
   }
 }
 
