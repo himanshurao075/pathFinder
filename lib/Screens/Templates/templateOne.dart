@@ -5,7 +5,6 @@ import 'package:path_finder/Providers/home.dart';
 import 'package:path_finder/Utils/colors.dart';
 import 'package:path_finder/Utils/constants.dart';
 import 'package:path_finder/Widgets/buttons.dart';
-import 'package:collection/collection.dart';
 import 'dart:js' as js;
 import 'dart:math';
 
@@ -34,12 +33,8 @@ class TemplateOne extends StatelessWidget {
             c.process.length,
             (index) {
               final isLeft = (index + 1) % 2 != 0;
-              final isLastIndex = index == c.process.length - 1;
               final color = NewCustomColorPlatte().getRowColor(index: index);
-              final lightColor =
-                  NewCustomColorPlatte().getColorWithShade50(index: index);
               final process = c.process[index];
-              final isStart = index == 0;
               return SizedBox(
                 width: MediaQuery.of(context).size.width * 0.5,
                 child: AnimationArcPainter(
