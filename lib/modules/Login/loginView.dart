@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:path_finder/Providers/login.dart';
-import 'package:path_finder/Screens/formscreen.dart';
 import 'package:path_finder/Utils/colors.dart';
 import 'package:path_finder/Widgets/buttons.dart';
 import 'dart:math';
-import '../Widgets/textfield.dart';
 
-class LoginScreen extends StatelessWidget {
+import '../../Widgets/textfield.dart';
+import '../../routes/app_pages.dart';
+import 'loginController.dart';
+
+class LoginScreen extends GetView<LoginController> {
   const LoginScreen({Key? key}) : super(key: key);
-
+  @override
+  LoginController get c => super.controller;
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final LoginController c = Get.put(LoginController());
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
@@ -82,11 +83,12 @@ class LoginScreen extends StatelessWidget {
                             children: [
                               CustomElevatedButton(
                                 onPressed: () {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (context) => const FormScreen(),
-                                    ),
-                                  );
+                                  Get.toNamed(Routes.form);
+                                  // Navigator.of(context).push(
+                                  //   MaterialPageRoute(
+                                  //     builder: (context) => const FormScreen(),
+                                  //   ),
+                                  // );
                                 },
                               )
                             ],

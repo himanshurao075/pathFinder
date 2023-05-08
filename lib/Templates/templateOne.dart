@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
-import 'package:path_finder/Providers/home.dart';
 import 'package:path_finder/Utils/colors.dart';
 import 'package:path_finder/Utils/constants.dart';
 import 'package:path_finder/Widgets/buttons.dart';
@@ -9,13 +8,14 @@ import 'dart:js' as js;
 import 'dart:math';
 
 import 'package:path_finder/Widgets/common.dart';
+import 'package:path_finder/modules/Home/homeController.dart';
 
-class TemplateOne extends StatelessWidget {
+class TemplateOne extends GetView<HomeController> {
   const TemplateOne({Key? key}) : super(key: key);
-
+@override
+  HomeController get c => super.controller;
   @override
   Widget build(BuildContext context) {
-    final HomeController c = Get.put(HomeController());
     var myModel = c.selectedCareerModel;
     if (myModel.value == null) {
       return const Center(

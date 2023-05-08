@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:path_finder/Models/DataModel.dart';
-import 'package:path_finder/Providers/home.dart';
 import 'package:path_finder/Utils/colors.dart';
 import 'dart:js' as js;
 
-class TemplateThree extends StatelessWidget {
-  const TemplateThree({Key? key}) : super(key: key);
+import 'package:path_finder/modules/Home/homeController.dart';
 
+class TemplateThree extends GetView<HomeController> {
+  const TemplateThree({Key? key}) : super(key: key);
+@override
+  HomeController get c => super.controller;
   @override
   Widget build(BuildContext context) {
-    final HomeController c = Get.put(HomeController());
     var myModel = c.selectedCareerModel;
     if (myModel.value == null) {
       return const Center(child: CircularProgressIndicator());

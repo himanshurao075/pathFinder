@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:path_finder/Models/DataModel.dart';
-import 'package:path_finder/Providers/home.dart';
-import 'package:path_finder/Screens/homescreen.dart';
 import 'package:path_finder/Utils/colors.dart';
 import 'package:path_finder/Widgets/dropdown.dart';
 import 'package:path_finder/Widgets/textfield.dart';
-import '../Widgets/buttons.dart';
+import '../../Widgets/buttons.dart';
+import '../../routes/app_pages.dart';
+import 'homeController.dart';
 
-class FormScreen extends StatelessWidget {
+class FormScreen extends GetView<HomeController> {
   const FormScreen({Key? key}) : super(key: key);
-
+  @override
+  HomeController get c => super.controller;
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final HomeController c = Get.put(HomeController());
     return Obx(() {
       return Scaffold(
         backgroundColor: Colors.white,
@@ -166,13 +166,14 @@ class FormScreen extends StatelessWidget {
                                           if (value?.isNotEmpty ?? false) {
                                             c.process.add(value!.first);
                                           }
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  HomeScreen(),
-                                            ),
-                                          );
+                                          Get.toNamed(Routes.home);
+                                          // Navigator.push(
+                                          //   context,
+                                          //   MaterialPageRoute(
+                                          //     builder: (context) =>
+                                          //         HomeScreen(),
+                                          //   ),
+                                          // );
                                         } else {
                                           c.selectedCareerModel.value =
                                               await fetchModelFromAI(
@@ -182,13 +183,14 @@ class FormScreen extends StatelessWidget {
                                             c.age.value.text,
                                           );
                                           c.isLoading.value = false;
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  HomeScreen(),
-                                            ),
-                                          );
+                                          Get.toNamed(Routes.home);
+                                          // Navigator.push(
+                                          //   context,
+                                          //   MaterialPageRoute(
+                                          //     builder: (context) =>
+                                          //         HomeScreen(),
+                                          //   ),
+                                          // );
                                         }
                                       },
                               )

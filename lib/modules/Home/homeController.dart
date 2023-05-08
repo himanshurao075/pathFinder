@@ -8,6 +8,10 @@ import 'package:path_finder/Models/gptResponseModel.dart';
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 
+import '../../Templates/templateOne.dart';
+import '../../Templates/templateThree.dart';
+import '../../Templates/templateTwo.dart';
+
 class HomeController extends GetxController {
   final totalProcess = 0.obs;
   final selectedTabIndex = 0.obs;
@@ -25,7 +29,13 @@ class HomeController extends GetxController {
     )
   ];
 
-  final selectedCareerModel = Rx<DropDownCarrerModel?>(null);
+  final templates = [
+    const TemplateOne(),
+    const TemplateTwo(),
+    const TemplateThree(),
+  ];
+
+  Rx<DropDownCarrerModel?> selectedCareerModel = Rx<DropDownCarrerModel?>(null);
   final scrollController = ScrollController().obs;
   final process = RxList<Process>();
 
@@ -46,7 +56,11 @@ class HomeController extends GetxController {
   final selectedTemplate = 0.obs;
 
   void onSelectedTemplate(int index) {
+    // final totalProcess = 0.obs;
+    // selectedCareerModel = Rx<DropDownCarrerModel?>(null);
+
     selectedTemplate.value = index;
+    update();
   }
 }
 

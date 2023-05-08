@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'Routings/routing.dart';
+import 'package:get/get.dart';
+import 'package:path_finder/routes/app_pages.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,16 +11,25 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      title: 'Flutter Demo',
+    return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.teal,
       ),
-      debugShowCheckedModeBanner:false,
-      routeInformationParser: router.routeInformationParser,
-      routerDelegate: router.routerDelegate,
-      routeInformationProvider: router.routeInformationProvider,
+      title: "Path Finder",
+      initialRoute: AppPages.initial,
+      getPages: AppPages.routes,
+      
     );
+    // return MaterialApp.router(
+    //   title: 'Flutter Demo',
+    //   theme: ThemeData(
+    //     primarySwatch: Colors.blue,
+    //   ),
+    //   debugShowCheckedModeBanner: false,
+    //   routeInformationParser: router.routeInformationParser,
+    //   routerDelegate: router.routerDelegate,
+    //   routeInformationProvider: router.routeInformationProvider,
+    // );
   }
 }
-
