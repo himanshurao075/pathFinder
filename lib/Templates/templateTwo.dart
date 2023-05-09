@@ -98,7 +98,7 @@ class BranchContainers extends StatelessWidget {
     required this.isLeftBranch,
   });
 
-  final Process model;
+  final Proccess model;
   final MaterialColor color;
   final bool isLeftBranch;
 
@@ -174,8 +174,8 @@ class BranchContainers extends StatelessWidget {
                                     child: Row(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        if (source.prefix != null)
-                                          source.prefix!,
+                                        if (source.type.icon != null)
+                                          Icon(source.type.icon),
                                         const SizedBox(
                                           width: 5,
                                         ),

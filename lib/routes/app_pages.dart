@@ -15,7 +15,7 @@ part './app_routes.dart';
 class AppPages {
   AppPages._();  /// this is private constructor which make class non initialble.
 
-  static const initial = Routes.modelsHome;
+  static const initial = Routes.login;
 
   static final routes = [
     GetPage(

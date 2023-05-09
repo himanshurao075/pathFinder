@@ -97,7 +97,7 @@ class ModelsFormView extends GetView<ModelsHomeController> {
                 ),
                 ...List.generate(controller.carrerModel.proccess.length,
                     (pindex) {
-                  Process process = controller.carrerModel.proccess[pindex];
+                  Proccess process = controller.carrerModel.proccess[pindex];
                   return Card(
                     elevation: 5,
                     key: GlobalKey(),
@@ -109,7 +109,7 @@ class ModelsFormView extends GetView<ModelsHomeController> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                "Process ${pindex + 1}",
+                                "Proccess ${pindex + 1}",
                                 style: const TextStyle(
                                     color: Colors.teal,
                                     fontWeight: FontWeight.bold),
@@ -296,46 +296,24 @@ class ModelsFormView extends GetView<ModelsHomeController> {
                   children: [
                     TextButton(
                         onPressed: () {
-                          controller.carrerModel.proccess.add(Process());
+                          controller.carrerModel.proccess.add(Proccess());
                           controller.update();
                         },
-                        child: const Text(" + Add Process")),
+                        child: const Text(" + Add Proccess")),
                   ],
                 ),
                 SizedBox(
                   height: 30,
                 ),
                 ElevatedButton(
-                  onPressed: () {
-                    final model = controller.carrerModel;
-                    print("Title : ${model.title}");
-                    print("=========================");
-                    print("Meaning : ${model.meaning}");
-                    print("=========================");
+                  onPressed: ()async {
+                 
+                    // controller.models = [...controller.models, co];
+                  await  controller.addModels();
 
-                    print("Scope : ${model.scope}");
-
-                    print("=========================");
-                    print("Function : ${model.function}");
-
-                    print("=========================");
-                    print("Pakcage : ${model.package}");
-
-                    print("=========================");
-                    print("qualites : ${model.qualites}");
-                    print("=========================");
-                    int count = 1;
-                    model.proccess.forEach((element) {
-                      print("Process == $count");
-                      print("title ${element.title}");
-                      print("description ${element.description}");
-                      count += 1;
-                    });
-
-                    controller.models= [ ...controller.models , model];
                     controller.carrerModel = CarrerModel();
-                    Get.back();
-                    controller.update();
+                    // Get.back();
+                    // controller.update();
                   },
                   child: Text("Submit"),
                 )

@@ -8,6 +8,7 @@ import 'package:path_finder/Models/gptResponseModel.dart';
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 
+import '../../Service/rest_api.dart';
 import '../../Templates/templateOne.dart';
 import '../../Templates/templateThree.dart';
 import '../../Templates/templateTwo.dart';
@@ -21,12 +22,12 @@ class HomeController extends GetxController {
   final who = TextEditingController().obs;
   final age = TextEditingController().obs;
 
-  final dropDownModelList = [
-    DropDownCarrerModel(label: "MBA", model: mbaModel),
-    DropDownCarrerModel(
-      label: "Other",
-      model: CarrerModel(),
-    )
+  List<DropDownCarrerModel> dropDownModelList = [
+    // DropDownCarrerModel(label: "MBA", model: mbaModel),
+    // DropDownCarrerModel(
+    //   label: "Other",
+    //   model: CarrerModel(),
+    // )
   ];
 
   final templates = [
@@ -37,7 +38,14 @@ class HomeController extends GetxController {
 
   Rx<DropDownCarrerModel?> selectedCareerModel = Rx<DropDownCarrerModel?>(null);
   final scrollController = ScrollController().obs;
-  final process = RxList<Process>();
+  final process = RxList<Proccess>();
+ 
+  @override
+  void onInit() async {
+    // TODO: implement onInit
+    super.onInit();
+    await fetchModels();
+  }
 
   onClickNext() {
     if (totalProcess.value !=
@@ -62,6 +70,20 @@ class HomeController extends GetxController {
     selectedTemplate.value = index;
     update();
   }
+
+  fetchModels() async {
+    dropDownModelList.clear();
+    final response = await RestAPI().getRequest(API_URLS.fetchModel);
+    if (response != null) {
+      final respData = response.body["data"]['result'];
+      final data = List.castFrom<dynamic, CarrerModel>(
+          respData.map((e) => CarrerModel.fromJson(e)).toList());
+      dropDownModelList = data
+          .map((e) => DropDownCarrerModel(label: e.title, model: e))
+          .toList();
+      update();
+    }
+  }
 }
 
 CarrerModel mbaModel = CarrerModel(
@@ -77,39 +99,39 @@ CarrerModel mbaModel = CarrerModel(
   scope:
       "The scope of an MBA is vast and varied. Graduates can pursue a wide range of careers in fields such as finance, consulting, marketing, human resources, and entrepreneurship. Additionally, MBA programs are available both online and in-person, making them accessible to students from all over the world",
   proccess: [
-    Process(
+    Proccess(
         prefixIcon: CupertinoIcons.book_solid,
         title: "10th Standard Examination",
         description:
             "Pass Your 10th Exam With Maths, Logical Reasoning, English, Current Affairs",
         sources: sources),
-    Process(
+    Proccess(
         prefixIcon: CupertinoIcons.book_solid,
         title: "12th Standard Examination",
         description:
             "Pass 12th Class with Maths & English as your core subject with certainly above 95% Score."),
-    Process(
+    Proccess(
         prefixIcon: Icons.school,
         title: "BBA/B.COM",
         description:
             "Either opt for BBA, BCOM or Any other College Degree\nBBA -> University + Colleges + City + Fee\nB.COM -> University + Colleges + City + Fee",
         sources: sources),
-    Process(
+    Proccess(
         prefixIcon: Icons.find_in_page,
         title: "Entrance Examination",
         sources: sources,
         description: "Get Ready for CAT, MAT, SNAP, IRMA, ZAT"),
-    Process(
+    Proccess(
         sources: sources,
         prefixIcon: CupertinoIcons.airplane,
         title: "For study in abroad",
         description: "Prepare for ZAT + IELTS + TOFFLS"),
-    Process(
+    Proccess(
         sources: sources,
         prefixIcon: Icons.feedback,
         title: "Recommentation & Suggestions ",
         description: "Collegs :  College Data + City Data +"),
-    Process(
+    Proccess(
         sources: sources,
         prefixIcon: Icons.work,
         title: "Placementes",
@@ -119,32 +141,19 @@ CarrerModel mbaModel = CarrerModel(
 
 List<SourceModel> sources = [
   SourceModel(
-      prefix: const Icon(CupertinoIcons.globe),
       title: "About Flutter",
       link:
           "https://www.google.com/search?q=flutter+sdk&oq=flutter+sdk&aqs=chrome..69i57j0i433i512j0i512l8.8032j0j7&sourceid=chrome&ie=UTF-8",
       type: MediaType.link),
   SourceModel(
       title: "Introduction",
-      prefix: const Icon(
-        CupertinoIcons.videocam_circle,
-        color: Colors.blue,
-      ),
       link: "https://www.youtube.com/watch?v=XeG1sEQitLk",
       type: MediaType.video),
   SourceModel(
       title: "Document",
-      prefix: const Icon(
-        Icons.picture_as_pdf_rounded,
-        color: Colors.red,
-      ),
       link: "https://www.africau.edu/images/default/sample.pdf",
       type: MediaType.pdf),
   SourceModel(
-      prefix: const Icon(
-        Icons.image,
-        color: Colors.blue,
-      ),
       title: "Hotel Image",
       link:
           "https://www.homelane.com/blog/wp-content/uploads/2022/11/bungalow-interiors.jpg",
@@ -191,7 +200,7 @@ Future<DropDownCarrerModel> fetchModelFromAI(
     model.model.qualites = respModel.qualities;
 
     model.model.proccess =
-        respModel.steps.map((e) => Process(description: e)).toList();
+        respModel.steps.map((e) => Proccess(description: e)).toList();
     if (model.model.meaning.isEmpty ||
         model.model.scope.isEmpty ||
         // model.model.function.isEmpty ||

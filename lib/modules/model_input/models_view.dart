@@ -8,8 +8,7 @@ import '../../routes/app_pages.dart';
 
 class ModelsHomeView extends GetView<ModelsHomeController> {
   const ModelsHomeView({super.key});
-  @override
-  get controller => super.controller;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,17 +24,25 @@ class ModelsHomeView extends GetView<ModelsHomeController> {
               label: Text("Add New Model"))
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: ListView.builder(
-          shrinkWrap: true,
-          itemCount: controller.models.length,
-          itemBuilder: (context, index) {
-            final item = controller.models[index];
-            return ListTile(
-              title: Text(item.title),
-            );
-          },
+      body: GetBuilder<ModelsHomeController>(
+        builder: (controller) => Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: controller.models.length,
+            itemBuilder: (context, index) {
+              final item = controller.models[index];
+              return ListTile(
+                title: Text(item.title),
+                subtitle: TextButton(
+                  onPressed: () {
+                    Get.toNamed(Routes.home);
+                  },
+                  child: Text("View Model"),
+                ),
+              );
+            },
+          ),
         ),
       ),
     );

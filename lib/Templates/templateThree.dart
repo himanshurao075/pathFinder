@@ -109,7 +109,7 @@ class BranchContainers extends StatefulWidget {
   });
 
   final int index;
-  final Process model;
+  final Proccess model;
   final MaterialColor color;
   final bool isLeftBranch;
 
@@ -236,8 +236,8 @@ class _BranchContainersState extends State<BranchContainers> {
                                             child: Row(
                                               mainAxisSize: MainAxisSize.min,
                                               children: [
-                                                if (source.prefix != null)
-                                                  source.prefix!,
+                                                if (source.type.icon != null)
+                                                  Icon(source.type.icon),
                                                 const SizedBox(
                                                   width: 5,
                                                 ),
@@ -293,7 +293,7 @@ class BranchIconBar extends StatelessWidget {
   final double aniWidth;
   final int index;
   final MaterialColor color;
-  final Process model;
+  final Proccess model;
 
   @override
   Widget build(BuildContext context) {

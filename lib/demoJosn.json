@@ -1,0 +1,39 @@
+{
+    "title": "fadsfa",
+    "meaning": "fdafsdfa",
+    "function": "adsfadf",
+    "scope": "sdfasdfadf",
+    "package": "asdfadsf",
+    "qualites": "adf",
+    "proccess": [
+        {
+            "title": "dafadf",
+            "description": "asdf",
+            "prefix_icon": 0,
+            "sources": [
+                {
+                    "title": "dafsf",
+                    "link": "adfa",
+                    "type": "link"
+                },
+                {
+                    "title": "dfads",
+                    "link": "adsfa",
+                    "type": "video"
+                }
+            ]
+        },
+        {
+            "title": "dasdf",
+            "description": "adsfa",
+            "prefix_icon": 0,
+            "sources": [
+                {
+                    "title": "adfsds",
+                    "link": "asdf",
+                    "type": "link"
+                }
+            ]
+        }
+    ]
+}

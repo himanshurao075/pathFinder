@@ -3,18 +3,38 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../Models/DataModel.dart';
+import '../../Service/rest_api.dart';
 import '../Home/homeController.dart';
 
 class ModelsHomeController extends GetxController {
-  CarrerModel carrerModel = CarrerModel(proccess: [Process()]);
+  CarrerModel carrerModel = CarrerModel(proccess: [Proccess()]);
   List<CarrerModel> models = [];
 
   @override
-  void onInit() {
+  void onInit() async {
     // TODO: implement onInit
     super.onInit();
-    models.add(mbaModel);
- 
+    await fetchModels();
+  }
+
+  addModels() async {
+    final response =
+        await RestAPI().postRequest(API_URLS.addModel, carrerModel.toJson());
+    if (response != null) {
+      final data = response.body["data"];
+      print(data);
+    }
+  }
+
+  fetchModels() async {
+    models.clear();
+    final response = await RestAPI().getRequest(API_URLS.fetchModel);
+    if (response != null) {
+      final respData = response.body["data"]['result'];
+      final data = List.castFrom<dynamic,CarrerModel>(respData.map((e) => CarrerModel.fromJson(e)).toList());
+      models.addAll(data);
+      update();
+    }
   }
 }
 
@@ -31,39 +51,39 @@ CarrerModel mbaModel = CarrerModel(
   scope:
       "The scope of an MBA is vast and varied. Graduates can pursue a wide range of careers in fields such as finance, consulting, marketing, human resources, and entrepreneurship. Additionally, MBA programs are available both online and in-person, making them accessible to students from all over the world",
   proccess: [
-    Process(
+    Proccess(
         prefixIcon: CupertinoIcons.book_solid,
         title: "10th Standard Examination",
         description:
             "Pass Your 10th Exam With Maths, Logical Reasoning, English, Current Affairs",
         sources: sources),
-    Process(
+    Proccess(
         prefixIcon: CupertinoIcons.book_solid,
         title: "12th Standard Examination",
         description:
             "Pass 12th Class with Maths & English as your core subject with certainly above 95% Score."),
-    Process(
+    Proccess(
         prefixIcon: Icons.school,
         title: "BBA/B.COM",
         description:
             "Either opt for BBA, BCOM or Any other College Degree\nBBA -> University + Colleges + City + Fee\nB.COM -> University + Colleges + City + Fee",
         sources: sources),
-    Process(
+    Proccess(
         prefixIcon: Icons.find_in_page,
         title: "Entrance Examination",
         sources: sources,
         description: "Get Ready for CAT, MAT, SNAP, IRMA, ZAT"),
-    Process(
+    Proccess(
         sources: sources,
         prefixIcon: CupertinoIcons.airplane,
         title: "For study in abroad",
         description: "Prepare for ZAT + IELTS + TOFFLS"),
-    Process(
+    Proccess(
         sources: sources,
         prefixIcon: Icons.feedback,
         title: "Recommentation & Suggestions ",
         description: "Collegs :  College Data + City Data +"),
-    Process(
+    Proccess(
         sources: sources,
         prefixIcon: Icons.work,
         title: "Placementes",
