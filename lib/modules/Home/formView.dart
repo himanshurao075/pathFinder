@@ -12,6 +12,7 @@ import 'homeController.dart';
 class FormScreen extends GetView<HomeController> {
   const FormScreen({Key? key}) : super(key: key);
   @override
+  // TODO: implement controller
   HomeController get c => super.controller;
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,7 @@ class FormScreen extends GetView<HomeController> {
     return Obx(() {
       return Scaffold(
         backgroundColor: Colors.white,
-        body: Center(
+        body:  Center(
           child: SizedBox(
               height: size.height * 0.8,
               width: size.width * 0.6,
@@ -203,6 +204,7 @@ class FormScreen extends GetView<HomeController> {
                 ),
               )),
         ),
+    
       );
     });
   }

@@ -21,9 +21,11 @@ class ModelsHomeController extends GetxController {
     final response =
         await RestAPI().postRequest(API_URLS.addModel, carrerModel.toJson());
     if (response != null) {
-      final data = response.body["data"];
-      print(data);
+      final data = response;
+       await fetchModels();
+      return response.statusCode == 200;
     }
+ 
   }
 
   fetchModels() async {
@@ -31,7 +33,8 @@ class ModelsHomeController extends GetxController {
     final response = await RestAPI().getRequest(API_URLS.fetchModel);
     if (response != null) {
       final respData = response.body["data"]['result'];
-      final data = List.castFrom<dynamic,CarrerModel>(respData.map((e) => CarrerModel.fromJson(e)).toList());
+      final data = List.castFrom<dynamic, CarrerModel>(
+          respData.map((e) => CarrerModel.fromJson(e)).toList());
       models.addAll(data);
       update();
     }

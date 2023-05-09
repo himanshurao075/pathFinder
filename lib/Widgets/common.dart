@@ -264,7 +264,7 @@ class _BranchContainersState extends State<BranchContainers> {
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     if (source.type.icon != null)
-                                      Icon(source.type.icon),
+                                      Icon(source.type.icon,color: source.type.color,),
                                     const SizedBox(
                                       width: 5,
                                     ),

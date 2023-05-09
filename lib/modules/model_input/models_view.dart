@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:get/get.dart';
+import 'package:path_finder/modules/model_input/ModelsHomeScreen.dart';
 import 'package:path_finder/modules/model_input/models_controller.dart';
 
 import '../../routes/app_pages.dart';
@@ -32,13 +33,21 @@ class ModelsHomeView extends GetView<ModelsHomeController> {
             itemCount: controller.models.length,
             itemBuilder: (context, index) {
               final item = controller.models[index];
-              return ListTile(
-                title: Text(item.title),
-                subtitle: TextButton(
-                  onPressed: () {
-                    Get.toNamed(Routes.home);
-                  },
-                  child: Text("View Model"),
+              return Card(
+                elevation: 5,
+                child: ListTile(
+                  
+                  title: Text(item.title),
+                  subtitle: Row(
+                    children: [
+                      TextButton(
+                        onPressed: () {
+                          Get.to(ModelsHomeScreen(model: item));
+                        },
+                        child: Text("View Model"),
+                      ),
+                    ],
+                  ),
                 ),
               );
             },

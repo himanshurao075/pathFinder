@@ -6,7 +6,7 @@ class RestAPI {
   final GetConnect connect = Get.find<GetConnect>();
 
   //GET request example
-  Future<dynamic> getRequest(String url) async {
+  Future<Response?> getRequest(String url) async {
     Response response = await connect.get(url);
     if (response.statusCode == 200) {
       return response;
@@ -16,7 +16,7 @@ class RestAPI {
   }
 
   //post request example
-  Future<dynamic> postRequest(
+  Future<Response?> postRequest(
       String url, Map<String, dynamic> jsonBody) async {
     //body data
     // FormData formData = FormData(jsonBody);

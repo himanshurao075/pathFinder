@@ -22,13 +22,7 @@ class HomeController extends GetxController {
   final who = TextEditingController().obs;
   final age = TextEditingController().obs;
 
-  List<DropDownCarrerModel> dropDownModelList = [
-    // DropDownCarrerModel(label: "MBA", model: mbaModel),
-    // DropDownCarrerModel(
-    //   label: "Other",
-    //   model: CarrerModel(),
-    // )
-  ];
+  RxList<DropDownCarrerModel> dropDownModelList = <DropDownCarrerModel>[].obs;
 
   final templates = [
     const TemplateOne(),
@@ -78,7 +72,7 @@ class HomeController extends GetxController {
       final respData = response.body["data"]['result'];
       final data = List.castFrom<dynamic, CarrerModel>(
           respData.map((e) => CarrerModel.fromJson(e)).toList());
-      dropDownModelList = data
+      dropDownModelList.value = data
           .map((e) => DropDownCarrerModel(label: e.title, model: e))
           .toList();
       update();
