@@ -66,14 +66,14 @@ class BorderContainers extends StatelessWidget {
 }
 
 class BranchContainers extends StatefulWidget {
-  const BranchContainers({
-    super.key,
-    required this.index,
-    required this.model,
-    required this.color,
-    required this.isLeftBranch,
-  });
-
+  const BranchContainers(
+      {super.key,
+      required this.index,
+      required this.model,
+      required this.color,
+      required this.isLeftBranch,
+      this.hideBubble = false});
+  final bool hideBubble;
   final int index;
   final Proccess model;
   final MaterialColor color;
@@ -97,191 +97,107 @@ class _BranchContainersState extends State<BranchContainers> {
 
   @override
   Widget build(BuildContext context) {
-    // return Padding(
-    //   padding: const EdgeInsets.symmetric(vertical: 100.0),
-    //   child: Container(
-    //     decoration: BoxDecoration(
-    //         color: Color(widget.color.value),
-    //         borderRadius: BorderRadius.circular(15)),
-    //     child: Padding(
-    //       padding: EdgeInsets.only(
-    //           bottom: 3.0,
-    //           right: widget.isLeftBranch ? 3.0 : 0,
-    //           left: widget.isLeftBranch ? 0 : 3),
-    //       child: Container(
-    //         decoration: BoxDecoration(
-    //             color: widget.color.shade50,
-    //             borderRadius: const BorderRadius.all(Radius.circular(12))),
-    //         child: Padding(
-    //           padding: const EdgeInsets.all(16.0),
-    //           child: Column(
-    //             mainAxisSize: MainAxisSize.min,
-    //             crossAxisAlignment: CrossAxisAlignment.start,
-    //             children: [
-    //               Text(
-    //                 widget.model.title,
-    //                 style: const TextStyle(fontWeight: FontWeight.w900),
-    //               ),
-    //               const SizedBox(
-    //                 height: 10,
-    //               ),
-    //               Row(children: [
-    //                 Text(
-    //                   widget.model.description,
-    //                   style: const TextStyle(fontWeight: FontWeight.w500),
-    //                 ),
-    //               ]),
-    //               const SizedBox(
-    //                 height: 20,
-    //               ),
-    //               Divider(
-    //                 color: widget.color,
-    //                 height: 5,
-    //               ),
-    //               Padding(
-    //                 padding: const EdgeInsets.symmetric(vertical: 2.0),
-    //                 child: Wrap(
-    //                   spacing: 10,
-    //                   runSpacing: 5,
-    //                   children:
-    //                       List.generate(widget.model.sources.length, (index) {
-    //                     final source = widget.model.sources[index];
-    //                     return InkWell(
-    //                       onTap: () async {
-    //                         if (source.type == MediaType.pdf ||
-    //                             source.type == MediaType.image ||
-    //                             source.type == MediaType.audio) {
-    //                           js.context.callMethod("open", [source.link]);
-    //                         }
-    //
-    //                         if (source.type == MediaType.link) {
-    //                           js.context.callMethod("open", [source.link]);
-    //                         }
-    //                       },
-    //                       child: Row(
-    //                         mainAxisSize: MainAxisSize.min,
-    //                         children: [
-    //                           if (source.prefix != null) source.prefix!,
-    //                           const SizedBox(
-    //                             width: 5,
-    //                           ),
-    //                           Text(
-    //                             source.title,
-    //                             style: const TextStyle(
-    //                               fontWeight: FontWeight.w500,
-    //                             ),
-    //                           )
-    //                         ],
-    //                       ),
-    //                     );
-    //                   }),
-    //                 ),
-    //               )
-    //             ],
-    //           ),
-    //         ),
-    //       ),
-    //     ),
-    //   ),
-    // );
+    
+    final size = MediaQuery.of(context).size;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 100.0),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: widget.isLeftBranch
+            ? MainAxisAlignment.start
+            : MainAxisAlignment.end,
         children: [
           if (widget.isLeftBranch)
             BranchIconBar(
               aniWidth: aniWidth,
+              hideBubble: widget.hideBubble,
+
               color: widget.color,
               index: widget.index,
               model: widget.model,
             ),
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                  color: Color(widget.color.value),
-                  borderRadius: BorderRadius.circular(15)),
-              child: Padding(
-                padding: EdgeInsets.only(
-                    bottom: 3.0,
-                    right: widget.isLeftBranch ? 3.0 : 0,
-                    left: widget.isLeftBranch ? 0 : 3),
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: widget.color.shade50,
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(12))),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          widget.model.title,
-                          style: const TextStyle(fontWeight: FontWeight.w900),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Row(children: [
-                          Text(
-                            widget.model.description,
-                            style: const TextStyle(fontWeight: FontWeight.w500),
-                          ),
-                        ]),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Divider(
-                          color: widget.color,
-                          height: 5,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 2.0),
-                          child: Wrap(
-                            spacing: 10,
-                            runSpacing: 5,
-                            children: List.generate(widget.model.sources.length,
-                                (index) {
-                              final source = widget.model.sources[index];
-                              return InkWell(
-                                onTap: () async {
-                                  if (source.type == MediaType.pdf ||
-                                      source.type == MediaType.image ||
-                                      source.type == MediaType.audio) {
-                                    js.context
-                                        .callMethod("open", [source.link]);
-                                  }
+          Container(
+            constraints: BoxConstraints(minWidth: size.width * 0.25,maxWidth: size.width*0.3),
+            decoration: BoxDecoration(
+                color: Color(widget.color.value),
+                borderRadius: BorderRadius.circular(15)),
+            child: Padding(
+              padding: EdgeInsets.only(
+                  bottom: 3.0,
+                  right: widget.isLeftBranch ? 3.0 : 0,
+                  left: widget.isLeftBranch ? 0 : 3),
+              child: Container(
+                decoration: BoxDecoration(
+                    color: widget.color.shade50,
+                    borderRadius: const BorderRadius.all(Radius.circular(12))),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.model.title,
+                        style: const TextStyle(fontWeight: FontWeight.w900),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        widget.model.description,
+                        style: const TextStyle(fontWeight: FontWeight.w500),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Divider(
+                        color: widget.color,
+                        height: 5,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 2.0),
+                        child: Wrap(
+                          spacing: 10,
+                          runSpacing: 5,
+                          children: List.generate(widget.model.sources.length,
+                              (index) {
+                            final source = widget.model.sources[index];
+                            return InkWell(
+                              onTap: () async {
+                                if (source.type == MediaType.pdf ||
+                                    source.type == MediaType.image ||
+                                    source.type == MediaType.audio) {
+                                  js.context.callMethod("open", [source.link]);
+                                }
 
-                                  if (source.type == MediaType.link) {
-                                    js.context
-                                        .callMethod("open", [source.link]);
-                                  }
-                                },
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    if (source.type.icon != null)
-                                      Icon(source.type.icon,color: source.type.color,),
-                                    const SizedBox(
-                                      width: 5,
+                                if (source.type == MediaType.link) {
+                                  js.context.callMethod("open", [source.link]);
+                                }
+                              },
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  if (source.type.icon != null)
+                                    Icon(
+                                      source.type.icon,
+                                      color: source.type.color,
                                     ),
-                                    Text(
-                                      source.title,
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              );
-                            }),
-                          ),
-                        )
-                      ],
-                    ),
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text(
+                                    source.title,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            );
+                          }),
+                        ),
+                      )
+                    ],
                   ),
                 ),
               ),
@@ -289,6 +205,7 @@ class _BranchContainersState extends State<BranchContainers> {
           ),
           if (!widget.isLeftBranch)
             BranchIconBar(
+              hideBubble: widget.hideBubble,
               aniWidth: aniWidth,
               color: widget.color,
               index: widget.index,
@@ -303,6 +220,7 @@ class _BranchContainersState extends State<BranchContainers> {
 class BranchIconBar extends StatelessWidget {
   const BranchIconBar({
     super.key,
+    this.hideBubble = false,
     required this.aniWidth,
     required this.color,
     required this.model,
@@ -313,6 +231,7 @@ class BranchIconBar extends StatelessWidget {
   final int index;
   final MaterialColor color;
   final Proccess model;
+  final bool hideBubble;
 
   @override
   Widget build(BuildContext context) {
@@ -324,26 +243,27 @@ class BranchIconBar extends StatelessWidget {
           height: 3,
           color: color,
         ),
-        CircleAvatar(
-          radius: 17,
-          backgroundColor: color,
-          child: CircleAvatar(
-            radius: 15,
-            backgroundColor: color.shade50,
-            child: Center(
-                child: model.prefixIcon == null
-                    ? Text(
-                        "${index + 1}",
-                        style: TextStyle(
-                            color: color, fontWeight: FontWeight.bold),
-                      )
-                    : Icon(
-                        model.prefixIcon,
-                        color: color,
-                        size: 20,
-                      )),
+        if (!hideBubble)
+          CircleAvatar(
+            radius: 17,
+            backgroundColor: color,
+            child: CircleAvatar(
+              radius: 15,
+              backgroundColor: color.shade50,
+              child: Center(
+                  child: model.prefixIcon == null
+                      ? Text(
+                          "${index + 1}",
+                          style: TextStyle(
+                              color: color, fontWeight: FontWeight.bold),
+                        )
+                      : Icon(
+                          model.prefixIcon,
+                          color: color,
+                          size: 20,
+                        )),
+            ),
           ),
-        ),
         AnimatedContainer(
           width: aniWidth,
           duration: const Duration(milliseconds: 700),

@@ -9,6 +9,7 @@ import 'dart:js' as js;
 import 'package:path_finder/modules/Home/homeController.dart';
 
 import '../Widgets/buttons.dart';
+import '../Widgets/common.dart';
 
 class TemplateTwo extends GetView<HomeController> {
   const TemplateTwo({Key? key}) : super(key: key);
@@ -68,15 +69,20 @@ class TemplateTwo extends GetView<HomeController> {
                 endChild: isLeft
                     ? null
                     : BranchContainers(
-                        isLeftBranch: isLeft,
+                      hideBubble: true,
+
+                      index: index+1,
+                        isLeftBranch: true,
                         model: process,
                         color: color,
                       ),
                 startChild: isLeft
                     ? BranchContainers(
+                      hideBubble : true,
                         model: process,
+                        index: index+1,
                         color: color,
-                        isLeftBranch: isLeft,
+                        isLeftBranch: false,
                       )
                     : null,
               ),
@@ -90,135 +96,135 @@ class TemplateTwo extends GetView<HomeController> {
   }
 }
 
-class BranchContainers extends StatelessWidget {
-  const BranchContainers({
-    super.key,
-    required this.model,
-    required this.color,
-    required this.isLeftBranch,
-  });
+// class BranchContainers extends StatelessWidget {
+//   const BranchContainers({
+//     super.key,
+//     required this.model,
+//     required this.color,
+//     required this.isLeftBranch,
+//   });
 
-  final Proccess model;
-  final MaterialColor color;
-  final bool isLeftBranch;
+//   final Proccess model;
+//   final MaterialColor color;
+//   final bool isLeftBranch;
 
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        if (!isLeftBranch)
-          Container(
-            width: 100,
-            height: 3,
-            color: color,
-          ),
-        Expanded(
-          child: Column(
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                    color: Color(color.value),
-                    borderRadius: BorderRadius.circular(5)),
-                child: Padding(
-                  padding: EdgeInsets.only(
-                      // bottom: 3.0,
-                      right: isLeftBranch ? 3.0 : 0,
-                      left: isLeftBranch ? 0 : 3),
-                  child: Container(
-                      decoration: BoxDecoration(
-                          color: color.shade50,
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(5))),
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              model.title,
-                              style:
-                                  const TextStyle(fontWeight: FontWeight.w900),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              model.description,
-                              style:
-                                  const TextStyle(fontWeight: FontWeight.w500),
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            Divider(
-                              color: color,
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 2.0),
-                              child: Wrap(
-                                spacing: 10,
-                                runSpacing: 5,
-                                children: List.generate(model.sources.length,
-                                    (index) {
-                                  final source = model.sources[index];
-                                  return InkWell(
-                                    onTap: () async {
-                                      js.context.callMethod(
-                                        "open",
-                                        [source.link],
-                                      );
-                                    },
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        if (source.type.icon != null)
-                                          Icon(source.type.icon),
-                                        const SizedBox(
-                                          width: 5,
-                                        ),
-                                        Text(
-                                          source.title,
-                                          style: const TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  );
-                                }),
-                              ),
-                            )
-                          ],
-                        ),
-                      )),
-                ),
-              ),
-              // SizedBox(height: 5,),
-              // Expanded(
-              //   child: Container( decoration: BoxDecoration(color: color.shade50,borderRadius: BorderRadius.circular(5)),
-              //     child: Padding(
-              //       padding: const EdgeInsets.all(8.0),
-              //       child: Row(
-              //         mainAxisSize: MainAxisSize.min,
-              //         children: [
-              //           Text("FDsdfs"),
-              //         ],
-              //       ),
-              //     ),),
-              // )
-            ],
-          ),
-        ),
-        if (isLeftBranch)
-          Container(
-            width: 100,
-            height: 3,
-            color: color,
-          ),
-      ],
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Row(
+//       mainAxisSize: MainAxisSize.min,
+//       crossAxisAlignment: CrossAxisAlignment.center,
+//       children: [
+//         if (!isLeftBranch)
+//           Container(
+//             width: 100,
+//             height: 3,
+//             color: color,
+//           ),
+//         Expanded(
+//           child: Column(
+//             children: [
+//               Container(
+//                 decoration: BoxDecoration(
+//                     color: Color(color.value),
+//                     borderRadius: BorderRadius.circular(5)),
+//                 child: Padding(
+//                   padding: EdgeInsets.only(
+//                       // bottom: 3.0,
+//                       right: isLeftBranch ? 3.0 : 0,
+//                       left: isLeftBranch ? 0 : 3),
+//                   child: Container(
+//                       decoration: BoxDecoration(
+//                           color: color.shade50,
+//                           borderRadius:
+//                               const BorderRadius.all(Radius.circular(5))),
+//                       child: Padding(
+//                         padding: const EdgeInsets.all(16.0),
+//                         child: Column(
+//                           crossAxisAlignment: CrossAxisAlignment.start,
+//                           children: [
+//                             Text(
+//                               model.title,
+//                               style:
+//                                   const TextStyle(fontWeight: FontWeight.w900),
+//                             ),
+//                             const SizedBox(
+//                               height: 10,
+//                             ),
+//                             Text(
+//                               model.description,
+//                               style:
+//                                   const TextStyle(fontWeight: FontWeight.w500),
+//                             ),
+//                             const SizedBox(
+//                               height: 20,
+//                             ),
+//                             Divider(
+//                               color: color,
+//                             ),
+//                             Padding(
+//                               padding:
+//                                   const EdgeInsets.symmetric(vertical: 2.0),
+//                               child: Wrap(
+//                                 spacing: 10,
+//                                 runSpacing: 5,
+//                                 children: List.generate(model.sources.length,
+//                                     (index) {
+//                                   final source = model.sources[index];
+//                                   return InkWell(
+//                                     onTap: () async {
+//                                       js.context.callMethod(
+//                                         "open",
+//                                         [source.link],
+//                                       );
+//                                     },
+//                                     child: Row(
+//                                       mainAxisSize: MainAxisSize.min,
+//                                       children: [
+//                                         if (source.type.icon != null)
+//                                           Icon(source.type.icon),
+//                                         const SizedBox(
+//                                           width: 5,
+//                                         ),
+//                                         Text(
+//                                           source.title,
+//                                           style: const TextStyle(
+//                                             fontWeight: FontWeight.w500,
+//                                           ),
+//                                         )
+//                                       ],
+//                                     ),
+//                                   );
+//                                 }),
+//                               ),
+//                             )
+//                           ],
+//                         ),
+//                       )),
+//                 ),
+//               ),
+//               // SizedBox(height: 5,),
+//               // Expanded(
+//               //   child: Container( decoration: BoxDecoration(color: color.shade50,borderRadius: BorderRadius.circular(5)),
+//               //     child: Padding(
+//               //       padding: const EdgeInsets.all(8.0),
+//               //       child: Row(
+//               //         mainAxisSize: MainAxisSize.min,
+//               //         children: [
+//               //           Text("FDsdfs"),
+//               //         ],
+//               //       ),
+//               //     ),),
+//               // )
+//             ],
+//           ),
+//         ),
+//         if (isLeftBranch)
+//           Container(
+//             width: 100,
+//             height: 3,
+//             color: color,
+//           ),
+//       ],
+//     );
+//   }
+// }
